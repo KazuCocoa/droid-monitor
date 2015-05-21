@@ -1,5 +1,6 @@
 require_relative "../monitor"
 require_relative "common/commons"
+require_relative "report/google_api_template"
 
 require "json"
 
@@ -111,6 +112,11 @@ module Droid
 
           JSON.generate google_api_data_format
         end
+      end
+
+      def create_graph(title, header1, input_file_path, graph_setting, output_file_path)
+        self.save(Droid::Monitor::GoogleApiTemplate.create_graph(title, header1, input_file_path, graph_setting),
+                  output_file_path)
       end
 
       private

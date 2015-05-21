@@ -1,0 +1,42 @@
+!!!
+%html
+  %head
+    %meta{charset: 'UTF-8'}
+    %script{type: 'text/javascript', src: 'https://www.google.com/jsapi'}
+    %script{type: 'text/javascript', src: 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'}
+    :javascript
+      google.load('visualization', '1', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+          var jsonData = $.ajax({
+              url: data_path(),
+              dataType:"json",
+              async: false
+          }).responseText;
+
+          // Create our data table out of JSON data loaded from server.
+          var data = new google.visualization.DataTable(jsonData);
+
+          var options = {
+              title: 'cpu usage',
+              vAxis: { miniValue: #{graph_settings[:miniValue]}, maxValue: #{graph_settings[:maxValue]} },
+              width: #{graph_settings[:width]},
+              height: #{graph_settings[:height]}
+          }
+
+          // Instantiate and draw our chart, passing in some options.
+          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+      }
+
+      function data_path() {
+          return '#{data_file_path}';
+      }
+
+    %title #{title}
+  %body
+    %h1 #{header1}
+    %div{id: 'chart_div'}
