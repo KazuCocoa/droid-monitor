@@ -55,7 +55,7 @@ class CpuTest < Test::Unit::TestCase
   end
 
   def test_push_current_time
-    assert_equal(@cpu.push_current_time([]).length, 1)
+    assert_equal(@cpu.merge_current_time({}).length, 1)
   end
 
   def test_dump_cpu_usage

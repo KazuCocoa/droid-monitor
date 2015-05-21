@@ -104,7 +104,7 @@ class MemoryTest < Test::Unit::TestCase
   end
 
   def test_push_current_time
-    assert_equal(@memory.push_current_time([]).length, 1)
+    assert_equal(@memory.merge_current_time({}).length, 1)
   end
 
   def test_dump_memory_usage_under_api_level18
@@ -125,5 +125,99 @@ class MemoryTest < Test::Unit::TestCase
   def test_dump_memory_detail_usage_over_api_level18
     expected = %w(TOTAL 44563 36396 5372 0 40720 38518 2045)
     assert_equal(expected,@memory.dump_memory_details_usage(SAMPLE_DATA_44))
+  end
+
+  def test_memory_api_level18
+    @memory.api_level = 18
+
+    expected = {
+      pss_total: 28929,
+      shared_dirty: 7308,
+      private_dirty: 25960,
+      heap_size: 24684,
+      heap_alloc: 15381,
+      heap_free: 6342,
+    }
+
+    result = @memory.transfer_total_memory_to_hash(@memory.dump_memory_details_usage(SAMPLE_DATA_43))
+    assert_equal(result, expected)
+  end
+
+  def test_memory_api_level19
+    @memory.api_level = 19
+
+    expected = {
+      pss_total: 44563,
+      private_dirty: 36396,
+      private_clean: 5372,
+      swapped_dirty: 0,
+      heap_size: 40720,
+      heap_alloc: 38518,
+      heap_free: 2045,
+    }
+    result = @memory.transfer_total_memory_to_hash(@memory.dump_memory_details_usage(SAMPLE_DATA_44))
+    assert_equal(result, expected)
+  end
+
+  def test_transfer_from_hash_empty_to_json_memory_api_level18
+    @memory.api_level = 18
+
+    dummy_array = %w()
+
+    @memory.push_to_memory_details_usage(dummy_array)
+
+    expected_json = "[{\"pss_total\":0,\"shared_dirty\":0,\"private_dirty\":0," +
+      "\"heap_size\":0,\"heap_alloc\":0,\"heap_free\":0,\"time\":\"#{@memory.memory_detail_usage[0][:time]}\"}]"
+    assert_equal(expected_json, JSON.generate(@memory.memory_detail_usage))
+  end
+
+  def test_transfer_from_hash_empty_to_json_memory_api_level18_twice
+    @memory.api_level = 18
+
+    result = @memory.dump_memory_details_usage(SAMPLE_DATA_43)
+
+    @memory.push_to_memory_details_usage(result)
+    @memory.push_to_memory_details_usage(result)
+
+    expected_json = "[{\"pss_total\":28929,\"shared_dirty\":7308,\"private_dirty\":25960," +
+      "\"heap_size\":24684,\"heap_alloc\":15381,\"heap_free\":6342," +
+      "\"time\":\"#{@memory.memory_detail_usage[0][:time]}\"}," +
+      "{\"pss_total\":28929,\"shared_dirty\":7308,\"private_dirty\":25960," +
+      "\"heap_size\":24684,\"heap_alloc\":15381,\"heap_free\":6342," +
+      "\"time\":\"#{@memory.memory_detail_usage[1][:time]}\"}]"
+
+    assert_equal(expected_json, JSON.generate(@memory.memory_detail_usage))
+  end
+
+
+  def test_transfer_from_hash_empty_to_json_memory_api_level19
+    @memory.api_level = 19
+
+    dummy_array = %w(13:43:32.556)
+
+    @memory.push_to_memory_details_usage(dummy_array)
+    expected_json = "[{\"pss_total\":0,\"private_dirty\":0,\"private_clean\":0," +
+      "\"swapped_dirty\":0,\"heap_size\":0,\"heap_alloc\":0,\"heap_free\":0," +
+      "\"time\":\"#{@memory.memory_detail_usage[0][:time]}\"}]"
+    assert_equal(expected_json, JSON.generate(@memory.memory_detail_usage))
+  end
+
+  def test_transfer_from_hash_empty_to_json_memory_api_level19_twice
+    @memory.api_level = 19
+
+    result = @memory.dump_memory_details_usage(SAMPLE_DATA_44)
+
+    @memory.push_to_memory_details_usage(result)
+    @memory.push_to_memory_details_usage(result)
+
+    expected_json = "[{\"pss_total\":44563,\"private_dirty\":36396,\"private_clean\":5372,\"swapped_dirty\":0," +
+      "\"heap_size\":40720,\"heap_alloc\":38518,\"heap_free\":2045," +
+      "\"time\":\"#{@memory.memory_detail_usage[0][:time]}\"}," +
+      "{\"pss_total\":44563,\"private_dirty\":36396," +
+      "\"private_clean\":5372,\"swapped_dirty\":0," +
+      "\"heap_size\":40720,\"heap_alloc\":38518,\"heap_free\":2045," +
+      "\"time\":\"#{@memory.memory_detail_usage[1][:time]}\"}]"
+
+    assert_equal(expected_json, JSON.generate(@memory.memory_detail_usage))
   end
 end
