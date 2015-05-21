@@ -19,8 +19,32 @@ Or install it yourself as:
     $ gem install droid-monitor
 
 ## Usage
+### CPU
 
-TODO: Write usage instructions here
+```ruby
+# initialize
+@cpu = Droid::Monitor::Cpu.new("com.android.chrome", "")
+
+# save data into @cpu.cpu_usage
+@cpu.push_to_cpu_usage(@cpu.dump_cpu_usage(@cpu.dump_cpuinfo))
+
+# export data into filename as google api format
+@cpu.save_cpu_usage_as_google_api_into(filename)
+```
+
+### Memory
+
+```ruby
+# initialize
+@memory = Droid::Monitor::Memory.new("com.android.chrome", "")
+
+# save data into @memory.memory_usage
+@memory.push_to_memory_details_usage(@memory.dump_memory_details_usage(@memory.dump_meminfo))
+
+# export data into filename as google api format
+@memory.save_memory_details_as_google_api_into(filename)
+```
+
 
 ## Contributing
 
