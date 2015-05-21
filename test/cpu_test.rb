@@ -63,4 +63,47 @@ class CpuTest < Test::Unit::TestCase
     assert_equal(expected, @cpu.dump_cpu_usage(SAMPLE_CPU_DATA_44))
   end
 
+  def test_transfer_from_hash_empty_to_json
+    dummy_array = %w(13:43:32.556)
+
+    @cpu.push_to_cpu_usage(dummy_array)
+    expected_json = "[{\"total_cpu\":\"0%\",\"process\":\"no package process\",\"user\":\"0%\"," +
+      "\"kernel\":\"0%\",\"time\":\"#{@cpu.cpu_usage[0][:time]}\"}]"
+
+    assert_equal(expected_json, JSON.generate(@cpu.cpu_usage))
+  end
+
+  def test_transfer_from_hash_correct_to_json
+    dummy_array = %w(4.7% 2273/com.sample.package:sample: 3.3% user + 1.3% kernel 13:43:32.556)
+
+    @cpu.push_to_cpu_usage(dummy_array)
+    expected_json = "[{\"total_cpu\":\"4.7%\",\"process\":\"2273/com.sample.package:sample:\"," +
+      "\"user\":\"3.3%\",\"kernel\":\"1.3%\",\"time\":\"#{@cpu.cpu_usage[0][:time]}\"}]"
+    assert_equal(expected_json, JSON.generate(@cpu.cpu_usage))
+  end
+
+  def test_convert_to_google_data_api_format_one
+    dummy_array = %w(4.7% 2273/com.sample.package:sample: 3.3% user + 1.3% kernel 13:43:32.556)
+
+    @cpu.push_to_cpu_usage(dummy_array)
+    expected_json = "{\"cols\":[{\"label\":\"time\",\"type\":\"string\"}," +
+      "{\"label\":\"total_cpu\",\"type\":\"number\"},{\"label\":\"user\",\"type\":\"number\"}," +
+      "{\"label\":\"kernel\",\"type\":\"number\"}],\"rows\":[{\"c\":[{\"v\":\"#{@cpu.cpu_usage[0][:time]}\"}," +
+      "{\"v\":4.7},{\"v\":3.3},{\"v\":1.3}]}]}"
+    assert_equal(@cpu.export_as_google_api_format(@cpu.cpu_usage), expected_json)
+  end
+
+  def test_convert_to_google_data_api_format_many
+    dummy_array = %w(4.7% 2273/com.sample.package:sample: 3.3% user + 1.3% kernel 13:43:32.556)
+
+    @cpu.push_to_cpu_usage(dummy_array)
+    @cpu.push_to_cpu_usage(dummy_array)
+    expected_json = "{\"cols\":[{\"label\":\"time\",\"type\":\"string\"}," +
+      "{\"label\":\"total_cpu\",\"type\":\"number\"},{\"label\":\"user\",\"type\":\"number\"}," +
+      "{\"label\":\"kernel\",\"type\":\"number\"}],\"rows\":[{\"c\":[{\"v\":\"#{@cpu.cpu_usage[0][:time]}\"}," +
+      "{\"v\":4.7},{\"v\":3.3},{\"v\":1.3}]},{\"c\":[{\"v\":\"#{@cpu.cpu_usage[1][:time]}\"}," +
+      "{\"v\":4.7},{\"v\":3.3},{\"v\":1.3}]}]}"
+    assert_equal(@cpu.export_as_google_api_format(@cpu.cpu_usage), expected_json)
+  end
+
 end
