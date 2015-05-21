@@ -187,6 +187,16 @@ class MemoryTest < Test::Unit::TestCase
       "\"time\":\"#{@memory.memory_detail_usage[1][:time]}\"}]"
 
     assert_equal(expected_json, JSON.generate(@memory.memory_detail_usage))
+
+    expected_google = "{\"cols\":[{\"label\":\"time\",\"type\":\"string\"},{\"label\":\"pss_total\"," +
+      "\"type\":\"number\"},{\"label\":\"shared_dirty\",\"type\":\"number\"},{\"label\":\"private_dirty\"," +
+      "\"type\":\"number\"},{\"label\":\"heap_size\",\"type\":\"number\"},{\"label\":\"heap_alloc\"," +
+      "\"type\":\"number\"},{\"label\":\"heap_free\",\"type\":\"number\"}]," +
+      "\"rows\":[{\"c\":[{\"v\":\"#{@memory.memory_detail_usage[0][:time]}\"},{\"v\":28929}," +
+      "{\"v\":7308},{\"v\":25960},{\"v\":24684},{\"v\":15381},{\"v\":6342}]}," +
+      "{\"c\":[{\"v\":\"#{@memory.memory_detail_usage[1][:time]}\"},{\"v\":28929},{\"v\":7308},{\"v\":25960}," +
+      "{\"v\":24684},{\"v\":15381},{\"v\":6342}]}]}"
+    assert_equal(expected_google, @memory.export_as_google_api_format(@memory.memory_detail_usage))
   end
 
 
@@ -219,5 +229,16 @@ class MemoryTest < Test::Unit::TestCase
       "\"time\":\"#{@memory.memory_detail_usage[1][:time]}\"}]"
 
     assert_equal(expected_json, JSON.generate(@memory.memory_detail_usage))
+
+    expected_google = "{\"cols\":[{\"label\":\"time\",\"type\":\"string\"},{\"label\":\"pss_total\"," +
+      "\"type\":\"number\"},{\"label\":\"private_dirty\",\"type\":\"number\"},{\"label\":\"private_clean\"," +
+      "\"type\":\"number\"},{\"label\":\"swapped_dirty\",\"type\":\"number\"},{\"label\":\"heap_size\"," +
+      "\"type\":\"number\"},{\"label\":\"heap_alloc\",\"type\":\"number\"},{\"label\":\"heap_free\"," +
+      "\"type\":\"number\"}],\"rows\":[{\"c\":[{\"v\":\"#{@memory.memory_detail_usage[0][:time]}\"}," +
+      "{\"v\":44563},{\"v\":36396},{\"v\":5372},{\"v\":0},{\"v\":40720},{\"v\":38518},{\"v\":2045}]}," +
+      "{\"c\":[{\"v\":\"#{@memory.memory_detail_usage[1][:time]}\"},{\"v\":44563},{\"v\":36396}," +
+      "{\"v\":5372},{\"v\":0},{\"v\":40720},{\"v\":38518},{\"v\":2045}]}]}"
+
+    assert_equal(expected_google, @memory.export_as_google_api_format(@memory.memory_detail_usage))
   end
 end

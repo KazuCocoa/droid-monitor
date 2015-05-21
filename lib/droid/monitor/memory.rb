@@ -72,8 +72,6 @@ module Droid
         end
       end
 
-      private
-
       def export_as_google_api_format(data)
         if @api_level.to_i >= 19
           google_api_data_format = empty_google_api_format_over44
@@ -114,6 +112,8 @@ module Droid
           JSON.generate google_api_data_format
         end
       end
+
+      private
 
       def empty_google_api_format_over44
         {
