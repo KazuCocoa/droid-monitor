@@ -29,7 +29,13 @@ Or install it yourself as:
 @cpu.push_to_cpu_usage(@cpu.dump_cpu_usage(@cpu.dump_cpuinfo))
 
 # export data into filename as google api format
+filename = "sample_data.txt"
 @cpu.save_cpu_usage_as_google_api_into(filename)
+
+# export data into filename which is used the above command.
+output_file_path = "sample.html"
+@cpu.create_grapsh("Sample Grash", "this graph is just sampple", filename, default_setting, output_file_path)
+
 ```
 
 ### Memory
@@ -42,7 +48,12 @@ Or install it yourself as:
 @memory.push_to_memory_details_usage(@memory.dump_memory_details_usage(@memory.dump_meminfo))
 
 # export data into filename as google api format
+filename = "sample_data.txt"
 @memory.save_memory_details_as_google_api_into(filename)
+
+# export data into filename which is used the above command.
+output_file_path = "sample.html"
+@memory.create_grapsh("Sample Grash", "this graph is just sampple", filename, default_setting, output_file_path)
 ```
 
 
