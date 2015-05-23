@@ -21,6 +21,7 @@ Or install it yourself as:
 ## Usage
 
 See under `sample` file in this repository.
+The `sample` use clockwork to run ruby script in particular terms.
 
 ### CPU
 
