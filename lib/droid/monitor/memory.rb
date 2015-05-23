@@ -41,16 +41,14 @@ module Droid
         []
       end
 
-      # @param [Array] dumped_memory Array of dumped memory data
-      # @return [Hash] Google API formatted data
-      def store_memory_usage(dumped_memory)
-        @memory_usage.push self.merge_current_time(transfer_total_memory_to_hash(dumped_memory))
+      # called directory
+      def store_dumped_memory_usage
+        self.store_memory_usage(self.dump_memory_usage(self.dump_meminfo))
       end
 
-      # @param [Array] dumped_memory_details Array of dumped memory data
-      # @return [Hash] Google API formatted data
-      def store_memory_details_usage(dumped_memory_details)
-        @memory_detail_usage.push self.merge_current_time(transfer_total_memory_to_hash(dumped_memory_details))
+      # called directory
+      def store_dumped_memory_details_usage
+        self.store_memory_details_usage(self.dump_memory_details_usage(self.dump_meminfo))
       end
 
       def save_memory_as_google_api(file_path)
@@ -61,11 +59,23 @@ module Droid
         self.save(export_as_google_api_format(@memory_detail_usage), file_path)
       end
 
-      def transfer_up_real_time_to_hash(data)
-        uptime_realtime(data)
+      # @param [Array] dumped_memory Array of dumped memory data
+      # @return [Hash] Google API formatted data
+      def store_memory_usage(dumped_memory)
+        @memory_usage.push self.merge_current_time(transfer_total_memory_to_hash(dumped_memory))
+      end
+
+      # @param [Array] dumped_memory_details Array of dumped memory data
+      # @return [Hash] Google API formatted data
+      def store_memory_details_usage(dumped_memory_details)
+        @memory_detail_usage.push self.merge_current_time(transfer_total_memory_details_to_hash(dumped_memory_details))
       end
 
       def transfer_total_memory_to_hash(data)
+        total_memory(data)
+      end
+
+      def transfer_total_memory_details_to_hash(data)
         if @api_level.to_i >= 19
           total_memory_details_api_level_over_44(data)
         else
@@ -154,11 +164,10 @@ module Droid
         }
       end
 
-      def uptime_realtime(data)
+      def total_memory(data)
         {
           uptime: data[1].to_i ||= 0,
           realtime: data[3].to_i ||= 0,
-          time: data.last,
         }
       end
 

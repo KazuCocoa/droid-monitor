@@ -38,7 +38,7 @@ module Droid
 
       def device_serial_option
         return "" unless @device_serial && @device_serial != ""
-        "-s #{@device_serial}"
+        "-s \"#{@device_serial}\""
       end
 
       def adb_shell

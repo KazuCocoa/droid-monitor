@@ -29,12 +29,17 @@ module Droid
         []
       end
 
-      def store_cpu_usage(dumped_cpu)
-        @cpu_usage.push self.merge_current_time(transfer_total_cpu_to_hash(dumped_cpu))
+      # called directory
+      def store_dumped_cpu_usage
+        self.store_cpu_usage(self.dump_cpu_usage(self.dump_cpuinfo))
       end
 
       def save_cpu_usage_as_google_api(file_path)
         self.save(export_as_google_api_format(@cpu_usage), file_path)
+      end
+
+      def store_cpu_usage(dumped_cpu)
+        @cpu_usage.push self.merge_current_time(transfer_total_cpu_to_hash(dumped_cpu))
       end
 
       def transfer_total_cpu_to_hash(dump_cpu_array)

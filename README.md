@@ -23,10 +23,10 @@ Or install it yourself as:
 
 ```ruby
 # initialize
-@cpu = Droid::Monitor::Cpu.new("com.android.chrome", "")
+@cpu = Droid::Monitor::Cpu.new( { package: "com.android.chrome" } )
 
 # save data into @cpu.cpu_usage
-@cpu.store_cpu_usage(@cpu.dump_cpu_usage(@cpu.dump_cpuinfo))
+@cpu.store_dumped_cpu_usage
 
 # export data into filename as google api format
 filename = "sample_data.txt"
@@ -42,10 +42,10 @@ output_file_path = "sample.html"
 
 ```ruby
 # initialize
-@memory = Droid::Monitor::Memory.new("com.android.chrome", "")
+@memory = Droid::Monitor::Cpu.new( { package: "com.android.chrome" } )
 
 # save data into @memory.memory_usage
-@memory.push_to_memory_details_usage(@memory.dump_memory_details_usage(@memory.dump_meminfo))
+@memory.store_dumped_memory_details_usage
 
 # export data into filename as google api format
 filename = "sample_data.txt"

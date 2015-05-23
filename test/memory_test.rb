@@ -127,7 +127,20 @@ class MemoryTest < Test::Unit::TestCase
     assert_equal(expected,@memory.dump_memory_details_usage(SAMPLE_DATA_44))
   end
 
-  def test_memory_api_level18
+  def test_memory_usage
+    @memory.api_level = 18
+
+    expected = {
+      realtime: 376894346,
+      uptime: 69627589,
+    }
+
+    result = @memory.transfer_total_memory_to_hash(@memory.dump_memory_usage(SAMPLE_DATA_43))
+    assert_equal(result, expected)
+  end
+
+
+  def test_memory_details_api_level18
     @memory.api_level = 18
 
     expected = {
@@ -139,11 +152,11 @@ class MemoryTest < Test::Unit::TestCase
       heap_free: 6342,
     }
 
-    result = @memory.transfer_total_memory_to_hash(@memory.dump_memory_details_usage(SAMPLE_DATA_43))
+    result = @memory.transfer_total_memory_details_to_hash(@memory.dump_memory_details_usage(SAMPLE_DATA_43))
     assert_equal(result, expected)
   end
 
-  def test_memory_api_level19
+  def test_memory_details_api_level19
     @memory.api_level = 19
 
     expected = {
@@ -155,11 +168,22 @@ class MemoryTest < Test::Unit::TestCase
       heap_alloc: 38518,
       heap_free: 2045,
     }
-    result = @memory.transfer_total_memory_to_hash(@memory.dump_memory_details_usage(SAMPLE_DATA_44))
+    result = @memory.transfer_total_memory_details_to_hash(@memory.dump_memory_details_usage(SAMPLE_DATA_44))
     assert_equal(result, expected)
   end
 
   def test_transfer_from_hash_empty_to_json_memory_api_level18
+    @memory.api_level = 18
+
+    dummy_array = %w()
+
+    @memory.store_memory_usage(dummy_array)
+
+    expected_json = "[{\"uptime\":0,\"realtime\":0,\"time\":\"#{@memory.memory_usage[0][:time]}\"}]"
+    assert_equal(expected_json, JSON.generate(@memory.memory_usage))
+  end
+
+  def test_transfer_from_hash_empty_to_json_memory_details_api_level18
     @memory.api_level = 18
 
     dummy_array = %w()
@@ -171,7 +195,7 @@ class MemoryTest < Test::Unit::TestCase
     assert_equal(expected_json, JSON.generate(@memory.memory_detail_usage))
   end
 
-  def test_transfer_from_hash_empty_to_json_memory_api_level18_twice
+  def test_transfer_from_hash_empty_to_json_memory_details_api_level18_twice
     @memory.api_level = 18
 
     result = @memory.dump_memory_details_usage(SAMPLE_DATA_43)
@@ -200,7 +224,7 @@ class MemoryTest < Test::Unit::TestCase
   end
 
 
-  def test_transfer_from_hash_empty_to_json_memory_api_level19
+  def test_transfer_from_hash_empty_to_json_memory_details_api_level19
     @memory.api_level = 19
 
     dummy_array = %w(13:43:32.556)
@@ -212,7 +236,7 @@ class MemoryTest < Test::Unit::TestCase
     assert_equal(expected_json, JSON.generate(@memory.memory_detail_usage))
   end
 
-  def test_transfer_from_hash_empty_to_json_memory_api_level19_twice
+  def test_transfer_from_hash_empty_to_json_memory_details_api_level19_twice
     @memory.api_level = 19
 
     result = @memory.dump_memory_details_usage(SAMPLE_DATA_44)
@@ -241,4 +265,5 @@ class MemoryTest < Test::Unit::TestCase
 
     assert_equal(expected_google, @memory.export_as_google_api_format(@memory.memory_detail_usage))
   end
+
 end
