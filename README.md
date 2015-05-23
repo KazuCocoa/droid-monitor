@@ -2,6 +2,8 @@
 
 Monitoring Android apu or memory usage and create their simple graph with Google API.
 
+[![Gem Version](https://badge.fury.io/rb/droid-monitor.svg)](http://badge.fury.io/rb/droid-monitor)
+
 ## Installation
 
 Add this line to your application's Gemfile:
