@@ -1,4 +1,4 @@
-require "../lib/droid/monitor/memory"
+require "droid/monitor/memory"
 require "clockwork"
 
 module Clockwork
