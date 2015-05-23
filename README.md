@@ -53,7 +53,8 @@ graph_opts = { title: "Example", header1: "this graph is just sample"}
 
 ```ruby
 # initialize
-@memory = Droid::Monitor::Cpu.new( { package: "com.android.chrome" } )
+# You can specify target devices with providing device serial which is provided via adb devices.
+@memory = Droid::Monitor::Cpu.new( { package: "com.android.chrome", device_serial: "device_serials"} )
 
 # save data into @memory.memory_usage
 @memory.store_dumped_memory_details_usage
