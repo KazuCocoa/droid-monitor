@@ -1,6 +1,6 @@
 # Droid::Monitor
 
-TODO: Write a gem description
+Monitoring Android apu or memory usage and create their simple graph with Google API.
 
 ## Installation
 
@@ -19,6 +19,9 @@ Or install it yourself as:
     $ gem install droid-monitor
 
 ## Usage
+
+See under `sample` file in this repository.
+
 ### CPU
 
 ```ruby
@@ -39,6 +42,10 @@ graph_opts = { title: "Example", header1: "this graph is just sample"}
 
 ```
 
+#### Graph
+
+![](https://github.com/KazuCocoa/droid-monitor/blob/master/doc/images/Screen%20Shot%202015-05-23%20at%2019.46.08.png)
+
 ### Memory
 
 ```ruby
@@ -57,6 +64,10 @@ output_file_path = "sample.html"
 graph_opts = { title: "Example", header1: "this graph is just sample"}
 @cpu.create_graph(filename, graph_opts, output_file_path)
 ```
+
+#### Graph
+
+![](https://github.com/KazuCocoa/droid-monitor/blob/master/doc/images/Screen%20Shot%202015-05-23%20at%2019.56.41.png)
 
 
 ## Contributing
