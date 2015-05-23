@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8'>
+    <script src='https://www.google.com/jsapi' type='text/javascript'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js' type='text/javascript'></script>
+    <script>
+      google.load('visualization', '1', {'packages':['corechart']});
+      
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+      
+      function drawChart() {
+          var jsonData = $.ajax({
+              url: data_path(),
+              dataType:"json",
+              async: false
+          }).responseText;
+      
+          // Create our data table out of JSON data loaded from server.
+          var data = new google.visualization.DataTable(jsonData);
+      
+          var options = {
+              title: "this graph is just sample",
+              vAxis: { miniValue: 0, maxValue: 400 },
+              width: 800,
+              height: 480
+          }
+      
+          // Instantiate and draw our chart, passing in some options.
+          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+      }
+      
+      function data_path() {
+          return 'sample.txt';
+      }
+    </script>
+    <title>Example</title>
+  </head>
+  <body>
+    <h1>this graph is just sample</h1>
+    <div id='chart_div'></div>
+  </body>
+</html>
