@@ -76,6 +76,11 @@ graph_opts = { title: "Example", header1: "this graph is just sample"}
 
 1. Some browser, like Google Chrome, can't see local file via page. So, you should see report html file via FireFox as example.
 
+
+## License
+MIT license.
+Please see [here](https://github.com/KazuCocoa/droid-monitor/blob/master/LICENSE.txt).
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/droid-monitor/fork )
