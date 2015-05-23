@@ -11,8 +11,8 @@ module Droid
 
       include Droid::Monitor::Utils
 
-      def initialize(package, device_serial)
-        super(package, device_serial)
+      def initialize(opts = {})
+        super(opts)
         @memory_usage = []
         @memory_detail_usage = []
       end
@@ -43,21 +43,21 @@ module Droid
 
       # @param [Array] dumped_memory Array of dumped memory data
       # @return [Hash] Google API formatted data
-      def push_to_memory_usage(dumped_memory)
+      def store_memory_usage(dumped_memory)
         @memory_usage.push self.merge_current_time(transfer_total_memory_to_hash(dumped_memory))
       end
 
       # @param [Array] dumped_memory_details Array of dumped memory data
       # @return [Hash] Google API formatted data
-      def push_to_memory_details_usage(dumped_memory_details)
+      def store_memory_details_usage(dumped_memory_details)
         @memory_detail_usage.push self.merge_current_time(transfer_total_memory_to_hash(dumped_memory_details))
       end
 
-      def save_memory_as_google_api_into(file_path)
+      def save_memory_as_google_api(file_path)
         self.save(export_as_google_api_format(@memory_usage), file_path)
       end
 
-      def save_memory_details_as_google_api_into(file_path)
+      def save_memory_details_as_google_api(file_path)
         self.save(export_as_google_api_format(@memory_detail_usage), file_path)
       end
 

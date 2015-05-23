@@ -26,11 +26,11 @@ Or install it yourself as:
 @cpu = Droid::Monitor::Cpu.new("com.android.chrome", "")
 
 # save data into @cpu.cpu_usage
-@cpu.push_to_cpu_usage(@cpu.dump_cpu_usage(@cpu.dump_cpuinfo))
+@cpu.store_cpu_usage(@cpu.dump_cpu_usage(@cpu.dump_cpuinfo))
 
 # export data into filename as google api format
 filename = "sample_data.txt"
-@cpu.save_cpu_usage_as_google_api_into(filename)
+@cpu.save_cpu_usage_as_google_api(filename)
 
 # export data into filename which is used the above command.
 output_file_path = "sample.html"
@@ -49,7 +49,7 @@ output_file_path = "sample.html"
 
 # export data into filename as google api format
 filename = "sample_data.txt"
-@memory.save_memory_details_as_google_api_into(filename)
+@memory.save_memory_details_as_google_api(filename)
 
 # export data into filename which is used the above command.
 output_file_path = "sample.html"

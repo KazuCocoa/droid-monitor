@@ -5,15 +5,17 @@ module Droid
     class Adb
       attr_accessor :package, :device_serial, :api_level
 
-      def initialize(package, device_serial)
-        @package = package
-        @device_serial = device_serial || ""
-        @api_level = device_build_version_sdk
+      def initialize( opts = {})
+        fail 'opts must be a hash' unless opts.is_a? Hash
+        fail 'Package name is required.' unless opts[:package]
+        @package = opts[:package]
+        @device_serial = opts[:device_serial] || ""
+        @api_level = device_sdk_version
       end
 
       # @return [Integer] message from adb command
       # e.g: 17
-      def device_build_version_sdk
+      def device_sdk_version
         `#{adb_shell} getprop ro.build.version.sdk`.chomp.to_i
       end
 
@@ -35,8 +37,8 @@ module Droid
       end
 
       def device_serial_option
-        return "" unless device_serial && device_serial != ""
-        "-s #{device_serial}"
+        return "" unless @device_serial && @device_serial != ""
+        "-s #{@device_serial}"
       end
 
       def adb_shell

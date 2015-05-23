@@ -85,7 +85,7 @@ EOS
 class MemoryTest < Test::Unit::TestCase
 
   def setup
-    @memory = Droid::Monitor::Memory.new("com.android.chrome", "")
+    @memory = Droid::Monitor::Memory.new( { package: "com.android.chrome" } )
   end
 
   def teardown
@@ -164,7 +164,7 @@ class MemoryTest < Test::Unit::TestCase
 
     dummy_array = %w()
 
-    @memory.push_to_memory_details_usage(dummy_array)
+    @memory.store_memory_details_usage(dummy_array)
 
     expected_json = "[{\"pss_total\":0,\"shared_dirty\":0,\"private_dirty\":0," +
       "\"heap_size\":0,\"heap_alloc\":0,\"heap_free\":0,\"time\":\"#{@memory.memory_detail_usage[0][:time]}\"}]"
@@ -176,8 +176,8 @@ class MemoryTest < Test::Unit::TestCase
 
     result = @memory.dump_memory_details_usage(SAMPLE_DATA_43)
 
-    @memory.push_to_memory_details_usage(result)
-    @memory.push_to_memory_details_usage(result)
+    @memory.store_memory_details_usage(result)
+    @memory.store_memory_details_usage(result)
 
     expected_json = "[{\"pss_total\":28929,\"shared_dirty\":7308,\"private_dirty\":25960," +
       "\"heap_size\":24684,\"heap_alloc\":15381,\"heap_free\":6342," +
@@ -205,7 +205,7 @@ class MemoryTest < Test::Unit::TestCase
 
     dummy_array = %w(13:43:32.556)
 
-    @memory.push_to_memory_details_usage(dummy_array)
+    @memory.store_memory_details_usage(dummy_array)
     expected_json = "[{\"pss_total\":0,\"private_dirty\":0,\"private_clean\":0," +
       "\"swapped_dirty\":0,\"heap_size\":0,\"heap_alloc\":0,\"heap_free\":0," +
       "\"time\":\"#{@memory.memory_detail_usage[0][:time]}\"}]"
@@ -217,8 +217,8 @@ class MemoryTest < Test::Unit::TestCase
 
     result = @memory.dump_memory_details_usage(SAMPLE_DATA_44)
 
-    @memory.push_to_memory_details_usage(result)
-    @memory.push_to_memory_details_usage(result)
+    @memory.store_memory_details_usage(result)
+    @memory.store_memory_details_usage(result)
 
     expected_json = "[{\"pss_total\":44563,\"private_dirty\":36396,\"private_clean\":5372,\"swapped_dirty\":0," +
       "\"heap_size\":40720,\"heap_alloc\":38518,\"heap_free\":2045," +

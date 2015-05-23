@@ -11,8 +11,8 @@ module Droid
 
       include Droid::Monitor::Utils
 
-      def initialize(package, device_serial)
-        super(package, device_serial)
+      def initialize(opts = {})
+        super(opts)
         @cpu_usage = []
       end
 
@@ -29,11 +29,11 @@ module Droid
         []
       end
 
-      def push_to_cpu_usage(dumped_cpu)
+      def store_cpu_usage(dumped_cpu)
         @cpu_usage.push self.merge_current_time(transfer_total_cpu_to_hash(dumped_cpu))
       end
 
-      def save_cpu_usage_as_google_api_into(file_path)
+      def save_cpu_usage_as_google_api(file_path)
         self.save(export_as_google_api_format(@cpu_usage), file_path)
       end
 
