@@ -34,7 +34,8 @@ filename = "sample_data.txt"
 
 # export data into filename which is used the above command.
 output_file_path = "sample.html"
-@cpu.create_grapsh("Sample Grash", "this graph is just sampple", filename, default_setting, output_file_path)
+graph_opts = { title: "Example", header1: "this graph is just sample"}
+@cpu.create_graph(filename, graph_opts, output_file_path)
 
 ```
 
@@ -53,7 +54,8 @@ filename = "sample_data.txt"
 
 # export data into filename which is used the above command.
 output_file_path = "sample.html"
-@memory.create_grapsh("Sample Grash", "this graph is just sampple", filename, default_setting, output_file_path)
+graph_opts = { title: "Example", header1: "this graph is just sample"}
+@cpu.create_graph(filename, graph_opts, output_file_path)
 ```
 
 

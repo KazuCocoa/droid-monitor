@@ -124,8 +124,11 @@ module Droid
         end
       end
 
-      def create_graph(title, header1, input_file_path, graph_setting, output_file_path)
-        self.save(Droid::Monitor::GoogleApiTemplate.create_graph(title, header1, input_file_path, graph_setting),
+      # @params [String] data_file_path A path to data.
+      # @params [Hash] graph_opts A hash regarding graph settings.
+      # @params [String] output_file_path A path you would like to export data.
+      def create_graph(data_file_path, graph_opts = {}, output_file_path)
+        self.save(Droid::Monitor::GoogleApiTemplate.create_graph(data_file_path, graph_opts),
                   output_file_path)
       end
 

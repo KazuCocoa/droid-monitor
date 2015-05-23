@@ -21,7 +21,7 @@
           var data = new google.visualization.DataTable(jsonData);
 
           var options = {
-              title: 'cpu usage',
+              title: "#{header1}",
               vAxis: { miniValue: #{graph_settings[:miniValue]}, maxValue: #{graph_settings[:maxValue]} },
               width: #{graph_settings[:width]},
               height: #{graph_settings[:height]}
