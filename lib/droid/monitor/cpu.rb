@@ -67,7 +67,6 @@ module Droid
 
         from_cpu_usage.each do |hash|
 
-          puts hash
           a_google_api_data_format = {
             c: [
               { v: hash[:time] },
