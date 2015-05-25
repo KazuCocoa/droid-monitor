@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 2.0.0"
 
   spec.add_dependency "faml"
+  spec.add_dependency "haml" # for using faml to tilt
   spec.add_dependency "tilt"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "test-unit"
