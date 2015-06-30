@@ -29,6 +29,19 @@ module Droid
         `#{adb_shell} dumpsys meminfo #{@package}`.chomp
       end
 
+      # @return [String] line of packages regarding pid and so on
+      def get_pid
+        `#{adb_shell} dumpsys package #{@package} | grep userId=`.chomp
+      end
+
+      def dump_tcp_rcv
+        `#{adb_shell} cat proc/uid_stat/#{get_pid}/tcp_rcv`
+      end
+
+      def dump_tcp_snd
+        `#{adb_shell} cat proc/uid_stat/#{get_pid}/tcp_snd`
+      end
+
       private
 
       def adb
