@@ -31,7 +31,7 @@ module Droid
 
       # @return [String] line of packages regarding pid and so on
       def get_pid
-        `#{adb_shell} dumpsys package #{@package} | grep userId=`.chomp
+        `#{adb_shell} dumpsys package #{@package} | grep userId=`.chomp.scan(/userId=[0-9]+/).uniq.first.delete("userId=")
       end
 
       def dump_tcp_rcv

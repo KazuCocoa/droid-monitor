@@ -70,7 +70,7 @@ module Droid
       def export_as_google_api_format_rec(from_tcp_rec)
         google_api_data_format = empty_google_api_format_rec
 
-        from_cpu_usage.each do |hash|
+        from_tcp_rec.each do |hash|
 
           a_google_api_data_format = {
             c: [
@@ -87,7 +87,7 @@ module Droid
       def export_as_google_api_format_snd(from_tcp_snd)
         google_api_data_format = empty_google_api_format_snd
 
-        from_cpu_usage.each do |hash|
+        from_tcp_snd.each do |hash|
 
           a_google_api_data_format = {
             c: [
