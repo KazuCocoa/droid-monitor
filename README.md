@@ -73,6 +73,33 @@ graph_opts = { title: "Example", header1: "this graph is just sample"}
 
 ![](https://github.com/KazuCocoa/droid-monitor/blob/master/doc/images/Screen%20Shot%202015-05-23%20at%2019.56.41.png)
 
+### Net
+
+```ruby
+# initialize
+@net = Droid::Monitor::Net.new( { package: "com.android.chrome" } )
+
+@data_file = "sample.txt"
+@data_file2 = "sample2.txt"
+
+# save data into @net.tcp_rec, @net.tcp_snd
+@net.store_dumped_tcp_rcv
+@net.store_dumped_tcp_snd
+
+# export data into filename as google api format
+finename1 = "sample_data1.txt"
+finename2 = "sample_data2.txt"
+@net.save_cpu_usage_as_google_api_rec(finename1)
+@net.save_cpu_usage_as_google_api_snd(finename2)
+
+# export data into filename which is used the above command.
+output_file_path1 = "sample1.html"
+output_file_path2 = "sample2.html"
+graph_opts = { title: "Example", header1: "this graph is just sample"}
+@net.create_graph(@data_file, graph_opts, output_file_path1)
+@net.create_graph(@data_file2, graph_opts, output_file_path2)
+```
+
 ## Notice
 
 1. Some browser, like Google Chrome, can't see local file via page. So, you should see report html file via FireFox as example.
