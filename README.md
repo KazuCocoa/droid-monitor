@@ -100,6 +100,16 @@ graph_opts = { title: "Example", header1: "this graph is just sample"}
 @net.create_graph(@data_file2, graph_opts, output_file_path2)
 ```
 
+#### Graph
+
+- receive tcp
+
+![](https://github.com/KazuCocoa/droid-monitor/blob/master/doc/images/Screen%20Shot%202015-07-01%2010.18.57.png?raw=true)
+
+- send tcp
+
+![](https://github.com/KazuCocoa/droid-monitor/blob/master/doc/images/Screen%20Shot%202015-07-01%2010.19.11.png?raw=true)
+
 ## Notice
 
 1. Some browser, like Google Chrome, can't see local file via page. So, you should see report html file via FireFox as example.
