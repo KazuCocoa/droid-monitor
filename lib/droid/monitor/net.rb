@@ -17,9 +17,17 @@ module Droid
         @tcp_snd = []
       end
 
-      def clear_tcps
+      def clear_tcps_rec
         @tcp_rec = []
+      end
+
+      def clear_tcps_snd
         @tcp_snd = []
+      end
+
+      def clear_tcps
+        clear_tcps_rec
+        clear_tcps_snd
       end
 
       def dump_tcp_rcv_usage(dump_data)
