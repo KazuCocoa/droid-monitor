@@ -1,13 +1,15 @@
 require_relative "monitor/version"
 
+require "Open3"
+
 module Droid
   module Monitor
     class Adb
       attr_accessor :package, :device_serial, :api_level
 
-      def initialize( opts = {})
-        fail 'opts must be a hash' unless opts.is_a? Hash
-        fail 'Package name is required.' unless opts[:package]
+      def initialize(opts = {})
+        fail "opts must be a hash" unless opts.is_a? Hash
+        fail "Package name is required." unless opts[:package]
         @package = opts[:package]
         @device_serial = opts[:device_serial] || ""
         @api_level = device_sdk_version
@@ -16,30 +18,25 @@ module Droid
       # @return [Integer] message from adb command
       # e.g: 17
       def device_sdk_version
-        `#{adb_shell} getprop ro.build.version.sdk`.chomp.to_i
+        run_adb("#{adb_shell} getprop ro.build.version.sdk").to_i
       end
 
       # @return [String] message from adb command
       def dump_cpuinfo
-        `#{adb_shell} dumpsys cpuinfo`.chomp
+        run_adb("#{adb_shell} dumpsys cpuinfo")
       end
 
       # @return [String] message from adb command
       def dump_meminfo
-        `#{adb_shell} dumpsys meminfo #{@package}`.chomp
-      end
-
-      # @return [String] line of packages regarding pid and so on
-      def get_pid
-        `#{adb_shell} dumpsys package #{@package} | grep userId=`.chomp.scan(/userId=[0-9]+/).uniq.first.delete("userId=")
+        run_adb("#{adb_shell} dumpsys meminfo #{@package}")
       end
 
       def dump_tcp_rcv
-        `#{adb_shell} cat proc/uid_stat/#{get_pid}/tcp_rcv`
+        run_adb("#{adb_shell} cat proc/uid_stat/#{get_pid}/tcp_rcv").to_i
       end
 
       def dump_tcp_snd
-        `#{adb_shell} cat proc/uid_stat/#{get_pid}/tcp_snd`
+        run_adb("#{adb_shell} cat proc/uid_stat/#{get_pid}/tcp_snd").to_i
       end
 
       private
@@ -56,6 +53,17 @@ module Droid
 
       def adb_shell
         "#{adb} #{device_serial_option} shell"
+      end
+
+      # @return [String] line of packages regarding pid and so on
+      def get_pid
+        run_adb("#{adb_shell} dumpsys package #{@package}").scan(/userId=[0-9]+/).uniq.first.delete("userId=")
+      end
+
+      def run_adb(cmd)
+        out_s, out_e, status = Open3.capture3(cmd)
+        puts "error: device not found which serial is #{@device_serial}" if out_e.include?("error: device not found")
+        out_s.chomp unless out_s.nil? || out_s.empty?
       end
     end # class Adb
   end # module Monitor
