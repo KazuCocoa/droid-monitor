@@ -31,11 +31,11 @@ module Droid
       end
 
       def dump_tcp_rcv_usage(dump_data)
-        [dump_data]
+        [dump_data.to_i]
       end
 
       def dump_tcp_snd_usage(dump_data)
-        [dump_data]
+        [dump_data.to_i]
       end
 
       # called directory
