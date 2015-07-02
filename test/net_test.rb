@@ -10,7 +10,7 @@ TCP_RCV = "174934"
 
 TCP_SND = "374934"
 
-class MemoryTest < Test::Unit::TestCase
+class NetTest < Test::Unit::TestCase
 
   def setup
     @net = Droid::Monitor::Net.new( { package: "com.android.chrome" } )

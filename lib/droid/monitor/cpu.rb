@@ -43,7 +43,7 @@ module Droid
       end
 
       def transfer_total_cpu_to_hash(dump_cpu_array)
-        if dump_cpu_array.length == 0
+        if dump_cpu_array.length <= 1
           {
             total_cpu: '0%',
             process: 'no package process',
