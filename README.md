@@ -28,6 +28,8 @@ The `sample` use clockwork to run ruby script in particular terms.
 ### CPU
 
 ```ruby
+require "droid/monitor/cpu"
+
 # initialize
 @cpu = Droid::Monitor::Cpu.new( { package: "com.android.chrome" } )
 
@@ -52,6 +54,8 @@ graph_opts = { title: "Example", header1: "this graph is just sample"}
 ### Memory
 
 ```ruby
+require "droid/monitor/memory"
+
 # initialize
 # You can specify target devices with providing device serial which is provided via adb devices.
 @memory = Droid::Monitor::Cpu.new( { package: "com.android.chrome", device_serial: "device_serials"} )
@@ -76,6 +80,8 @@ graph_opts = { title: "Example", header1: "this graph is just sample"}
 ### Net
 
 ```ruby
+require "droid/monitor/net"
+
 # initialize
 @net = Droid::Monitor::Net.new( { package: "com.android.chrome" } )
 
