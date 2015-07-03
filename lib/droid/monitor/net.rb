@@ -30,7 +30,7 @@ module Droid
         clear_tcps_snd
       end
 
-      def dump_tcp_rcv_usage(dump_data)
+      def dump_tcp_rec_usage(dump_data)
         [dump_data.to_i]
       end
 
@@ -39,8 +39,8 @@ module Droid
       end
 
       # called directory
-      def store_dumped_tcp_rcv
-        self.store_tcp_rec(self.dump_tcp_rcv_usage(self.dump_tcp_rcv))
+      def store_dumped_tcp_rec
+        self.store_tcp_rec(self.dump_tcp_rec_usage(self.dump_tcp_rec))
       end
 
       def store_dumped_tcp_snd

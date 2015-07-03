@@ -45,6 +45,8 @@ output_file_path = "sample.html"
 graph_opts = { title: "Example", header1: "this graph is just sample"}
 @cpu.create_graph(filename, graph_opts, output_file_path)
 
+#clear @cpu.cpu_usage
+@cpu.clear_cpu_usage
 ```
 
 #### Graph
@@ -70,7 +72,10 @@ filename = "sample_data.txt"
 # export data into filename which is used the above command.
 output_file_path = "sample.html"
 graph_opts = { title: "Example", header1: "this graph is just sample"}
-@cpu.create_graph(filename, graph_opts, output_file_path)
+@memory.create_graph(filename, graph_opts, output_file_path)
+
+#clear @memory.memory_detail_usage
+@memory.clear_memory_usage
 ```
 
 #### Graph
@@ -89,7 +94,7 @@ require "droid/monitor/net"
 @data_file2 = "sample2.txt"
 
 # save data into @net.tcp_rec, @net.tcp_snd
-@net.store_dumped_tcp_rcv
+@net.store_dumped_tcp_rec
 @net.store_dumped_tcp_snd
 
 # export data into filename as google api format
@@ -104,6 +109,12 @@ output_file_path2 = "sample2.html"
 graph_opts = { title: "Example", header1: "this graph is just sample"}
 @net.create_graph(@data_file, graph_opts, output_file_path1)
 @net.create_graph(@data_file2, graph_opts, output_file_path2)
+
+# clear @net.tcp_rec and @net.tcp_snd
+@net.clear_tcps
+or
+@net.clear_tcps_rec
+@net.clear_tcps_snd
 ```
 
 #### Graph

@@ -6,7 +6,7 @@ PACKAGE_PID = <<-EOS
 userId=10475 gids=[1028, 1015, 3003]
 EOS
 
-TCP_RCV = "174934"
+TCP_REC = "174934"
 
 TCP_SND = "374934"
 
@@ -35,7 +35,7 @@ class NetTest < Test::Unit::TestCase
 
   def test_dump_net_recive_once
     expected = [174934]
-    assert_equal(expected, @net.dump_tcp_rcv_usage(TCP_RCV))
+    assert_equal(expected, @net.dump_tcp_rec_usage(TCP_REC))
   end
 
   def test_dump_net_recive_zero
@@ -52,7 +52,7 @@ class NetTest < Test::Unit::TestCase
 
     @net.store_tcp_rec(dummy_array)
 
-    result = @net.dump_tcp_rcv_usage(TCP_RCV)
+    result = @net.dump_tcp_rec_usage(TCP_REC)
 
     @net.store_tcp_rec(result)
 
