@@ -1,6 +1,6 @@
 # Droid::Monitor
 
-Monitoring Android apu or memory usage and create their simple graph with Google API.
+Monitoring Android cpu or memory usage and create their simple graph with Google API.
 
 [![Gem Version](https://badge.fury.io/rb/droid-monitor.svg)](http://badge.fury.io/rb/droid-monitor)
 
@@ -20,10 +20,22 @@ Or install it yourself as:
 
     $ gem install droid-monitor
 
-## Usage
+## Quick Start with Sample
 
 See under `sample` file in this repository.
 The `sample` use clockwork to run ruby script in particular terms.
+
+
+```
+$ cd sample
+$ bundle install
+$ bundle exec clockwork example_cpu.rb
+```
+
+## Usage
+
+Followings are only storing data.
+They don't include cron like clockwork.
 
 ### CPU
 
