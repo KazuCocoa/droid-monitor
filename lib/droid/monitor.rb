@@ -39,6 +39,10 @@ module Droid
         run_adb("#{adb_shell} cat proc/uid_stat/#{get_pid}/tcp_snd").to_i
       end
 
+      def dump_gfxinfo
+        run_adb("#{adb_shell} dumpsys gfxinfo #{@package}")
+      end
+
       private
 
       def adb
