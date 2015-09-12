@@ -139,6 +139,53 @@ or
 
 ![](https://github.com/KazuCocoa/droid-monitor/blob/master/doc/images/Screen%20Shot%202015-07-01%2010.19.11.png?raw=true)
 
+
+### Gfxinfo
+
+```ruby
+require "droid/monitor/gxfinfo"
+
+# initialize
+@gfx = Droid::Monitor::Gfxinfo.new( { package: "com.android.chrome" } )
+
+# save data into @gfx.gfxinfo_usage
+@gfx.store_dumped_gfxinfo_usage
+
+# export data into filename as google api format
+data_file_gfx = "sample_gfx.txt"
+data_file_mem = "sample_mem.txt"
+data_file_frame = "sample_frame.txt"
+@gfx.save_gfxinfo_usage_as_google_api(data_file_gfx, data_file_mem, data_file_frame)
+
+# export data into filename which is used the above command.
+output_file_path1 = "sample1.html"
+output_file_path2 = "sample2.html"
+output_file_path3 = "sample3.html"
+
+graph_opts = { title: "Example", header1: "this graph is just sample"}
+@gfx.create_graph(@data_file_gfx, graph_opts, output_file_path1)
+@gfx.create_graph(@data_file_mem, graph_opts, output_file_path3)
+@gfx.create_graph(@data_file_frame, graph_opts, output_file_path3)
+
+# clear @net.tcp_rec and @net.tcp_snd
+@gfx.clear_gfxinfo_usage
+```
+
+#### Graph
+
+- gfx
+
+![](https://raw.githubusercontent.com/KazuCocoa/droid-monitor/master/doc/images/Screen%20Shot%202015-09-12%20at%2009.41.30.png)
+
+- memory
+
+![](https://raw.githubusercontent.com/KazuCocoa/droid-monitor/master/doc/images/Screen%20Shot%202015-09-12%20at%2009.41.40.png)
+
+- frame
+
+![](https://raw.githubusercontent.com/KazuCocoa/droid-monitor/master/doc/images/Screen%20Shot%202015-09-12%20at%2009.41.16.png)
+
+
 ## Notice
 
 1. Some browser, like Google Chrome, can't see local file via page. So, you should see report html file via FireFox as example.
