@@ -31,7 +31,7 @@ module Droid
         run_adb("#{adb_shell} dumpsys meminfo #{@package}")
       end
 
-      def dump_tcp_rcv
+      def dump_tcp_rec
         run_adb("#{adb_shell} cat proc/uid_stat/#{get_pid}/tcp_rcv").to_i
       end
 
