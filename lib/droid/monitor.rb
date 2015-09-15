@@ -33,13 +33,13 @@ module Droid
 
       def dump_tcp_rec
         pid = get_pid
-        return "0" if pid == -1
+        return 0 if pid == -1
         run_adb("#{adb_shell} cat proc/uid_stat/#{pid}/tcp_rcv").to_i
       end
 
       def dump_tcp_snd
         pid = get_pid
-        return "0" if pid == -1
+        return 0 if pid == -1
         run_adb("#{adb_shell} cat proc/uid_stat/#{pid}/tcp_snd").to_i
       end
 
