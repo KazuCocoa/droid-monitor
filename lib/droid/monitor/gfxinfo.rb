@@ -21,9 +21,14 @@ module Droid
       end
 
       def dump_gfxinfo_usage(dump_data)
-        dump1 = dump_data.scan(/^.*views,.*kB of display lists,.*frames rendered.*$/).map(&:strip)
-                  .first.split(/\s/).reject(&:empty?)
-        dump2 = dump_data.scan(/^.*bytes,.*MB.*$/).map(&:strip).first.split(/\s/).reject(&:empty?)
+        scanned_dump1 = dump_data.scan(/^.*views,.*kB of display lists,.*frames rendered.*$/).map(&:strip).first
+        scanned_dump2 = dump_data.scan(/^.*bytes,.*MB.*$/).map(&:strip).first
+
+        return [] if scanned_dump1.nil? || scanned_dump2.nil?
+
+        dump1 = scanned_dump1.split(/\s/).reject(&:empty?)
+        dump2 = scanned_dump2.split(/\s/).reject(&:empty?)
+
         dump1 + dump2
       rescue StandardError => e
         puts e

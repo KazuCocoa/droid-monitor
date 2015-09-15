@@ -21,7 +21,10 @@ module Droid
       end
 
       def dump_cpu_usage(dump_data)
-        dump = dump_data.scan(/^.*#{self.package}.*$/).map(&:strip).first.split(/\s/).reject(&:empty?)
+        scanned_dump = dump_data.scan(/^.*#{self.package}.*$/).map(&:strip).first
+        return [] if scanned_dump.nil?
+
+        dump = scanned_dump.split(/\s/).reject(&:empty?)
         fail 'no package' if /^Load:$/ =~ dump[0]
         dump
       rescue StandardError => e

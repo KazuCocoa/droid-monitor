@@ -27,7 +27,11 @@ module Droid
 
       def dump_memory_usage(dump_data)
         fail "no process" if dump_data == "No process found for: #{@package}"
-        dump_data.scan(/^.*Uptime.*Realtime.*$/).map(&:strip).first.split(/\s/).reject(&:empty?)
+
+        scanned_dump = dump_data.scan(/^.*Uptime.*Realtime.*$/).map(&:strip).first
+
+        return [] if scanned_dump.nil?
+        scanned_dump.split(/\s/).reject(&:empty?)
       rescue StandardError => e
         puts e
         []
@@ -35,7 +39,10 @@ module Droid
 
       def dump_memory_details_usage(dump_data)
         fail "no process" if dump_data == "No process found for: #{@package}"
-        dump_data.scan(/^.*TOTAL.*$/).map(&:strip).first.split(/\s/).reject(&:empty?)
+        scanned_dump = dump_data.scan(/^.*TOTAL.*$/).map(&:strip).first
+
+        return [] if scanned_dump.nil?
+        scanned_dump.split(/\s/).reject(&:empty?)
       rescue StandardError => e
         puts e
         []

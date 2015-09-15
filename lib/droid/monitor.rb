@@ -32,11 +32,15 @@ module Droid
       end
 
       def dump_tcp_rec
-        run_adb("#{adb_shell} cat proc/uid_stat/#{get_pid}/tcp_rcv").to_i
+        pid = get_pid
+        return "0" if pid == -1
+        run_adb("#{adb_shell} cat proc/uid_stat/#{pid}/tcp_rcv").to_i
       end
 
       def dump_tcp_snd
-        run_adb("#{adb_shell} cat proc/uid_stat/#{get_pid}/tcp_snd").to_i
+        pid = get_pid
+        return "0" if pid == -1
+        run_adb("#{adb_shell} cat proc/uid_stat/#{pid}/tcp_snd").to_i
       end
 
       def dump_gfxinfo
@@ -61,7 +65,9 @@ module Droid
 
       # @return [String] line of packages regarding pid and so on
       def get_pid
-        run_adb("#{adb_shell} dumpsys package #{@package}").scan(/userId=[0-9]+/).uniq.first.delete("userId=")
+        dump = run_adb("#{adb_shell} dumpsys package #{@package}")
+        return -1 if dump.nil?
+        dump.scan(/userId=[0-9]+/).uniq.first.delete("userId=")
       end
 
       def run_adb(cmd)
