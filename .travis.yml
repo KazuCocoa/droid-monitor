@@ -1,0 +1,16 @@
+language: ruby
+rvm:
+  - 2.0.0
+  - 2.1.4
+  - 2.2.0
+
+sudo: false
+cache: bundler
+
+before_install: gem update --remote bundler
+
+install:
+  - bundle install --retry=3
+
+script:
+  - ruby test/run_test.rb
