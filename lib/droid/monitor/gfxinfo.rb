@@ -21,15 +21,15 @@ module Droid
       end
 
       def dump_gfxinfo_usage(dump_data)
-        scanned_dump1 = dump_data.scan(/^.*views,.*kB of display lists,.*frames rendered.*$/).map(&:strip).first
-        scanned_dump2 = dump_data.scan(/^.*bytes,.*MB.*$/).map(&:strip).first
+        view_dump = dump_data.scan(/^.*views,.*kB of display lists.*$/).map(&:strip).first
+        view_memory_dump2 = dump_data.scan(/^.*bytes,.*MB.*$/).map(&:strip).first
 
-        return [] if scanned_dump1.nil? || scanned_dump2.nil?
+        return [] if view_dump.nil? || view_memory_dump2.nil?
 
-        dump1 = scanned_dump1.split(/\s/).reject(&:empty?)
-        dump2 = scanned_dump2.split(/\s/).reject(&:empty?)
+        v_dump = view_dump.split(/\s/).reject(&:empty?)
+        v_mem_dump = view_memory_dump2.split(/\s/).reject(&:empty?)
 
-        dump1 + dump2
+        v_mem_dump + v_dump
       rescue StandardError => e
         puts e
         []
@@ -64,10 +64,10 @@ module Droid
           }
         else
           {
-            view: dump_gfxinfo_array[0].to_i,
-            display_lists_kb: dump_gfxinfo_array[2].to_f.round(2),
-            frames_rendered: dump_gfxinfo_array[7].to_i,
-            total_memory: (dump_gfxinfo_array[10].to_f / 1024).round(2),
+            view: dump_gfxinfo_array[4].to_i,
+            display_lists_kb: dump_gfxinfo_array[6].to_f.round(2),
+            frames_rendered: dump_gfxinfo_array[11].to_i || 0,
+            total_memory: (dump_gfxinfo_array[0].to_f / 1024).round(2),
             time: dump_gfxinfo_array.last,
           }
         end
