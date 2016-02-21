@@ -29,7 +29,19 @@ module Droid
         v_dump = view_dump.split(/\s/).reject(&:empty?)
         v_mem_dump = view_memory_dump2.split(/\s/).reject(&:empty?)
 
-        v_mem_dump + v_dump
+        gfxs = v_mem_dump + v_dump
+
+        if @api_level >= 23
+          view_total_frames_rendered = dump_data.scan(/^.*Total frames rendered:.*$/).map(&:strip).first
+          view_janky_frames = dump_data.scan(/^.*Janky frames:.*$/).map(&:strip).first
+
+          v_frames_rendered_dump = view_total_frames_rendered.split(/\s/).reject(&:empty?)
+          v_janky_frames = view_janky_frames.split(/\s/).reject(&:empty?)
+
+          gfxs = v_mem_dump + v_dump + v_frames_rendered_dump + v_janky_frames
+        end
+
+        gfxs
       rescue StandardError => e
         puts e
         []
