@@ -134,6 +134,10 @@ module Droid
         JSON.generate google_api_data_format
       end
 
+      def export_as_google_api_format_frame_and_janky(from_gfxinfo_usage)
+        # TODO: save total frame rendered and janky frames from `Total frames rendered: 3 Janky frames: 2 (66.67%)`
+      end
+
       def create_graph(data_file_path, graph_opts = {}, output_file_path)
         self.save(Droid::Monitor::GoogleApiTemplate.create_graph(data_file_path, graph_opts),
                   output_file_path)
