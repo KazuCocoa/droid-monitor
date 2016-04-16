@@ -91,6 +91,97 @@ Total Views:        41
 Total DisplayList:  1.36 kB
 EOS
 
+SAMPLE_GFXINFO_5 = <<-EOS
+Applications Graphics Acceleration Info:
+Uptime: 6019250 Realtime: 13901895
+
+** Graphics info for pid 26834 [com.android.chrome] **
+
+Recent DisplayList operations
+                        ConcatMatrix
+                        Save
+                        DrawBitmap
+                        RestoreToCount
+                    DrawRenderNode
+                      DrawRenderNode
+                        Save
+                        ClipRect
+                        Translate
+                        DrawRenderNode
+                          DrawText
+                          DrawText
+                        RestoreToCount
+                    DrawRenderNode
+                      Save
+                      ConcatMatrix
+                      Save
+                      DrawBitmap
+                      RestoreToCount
+                    DrawRenderNode
+                      Save
+                      ConcatMatrix
+                      Save
+                      DrawBitmap
+                      RestoreToCount
+                    RestoreToCount
+                  DrawRenderNode
+                    DrawRenderNode
+                      DrawRenderNode
+                      Save
+                      ConcatMatrix
+                      Save
+                      DrawBitmap
+                      RestoreToCount
+                  RestoreToCount
+              DrawRenderNode
+    RestoreToCount
+RestoreToCount
+DrawRect
+DrawBitmap
+DrawBitmap
+DrawBitmap
+DrawBitmap
+DrawPatch
+DrawBitmap
+DrawBitmap
+DrawBitmap
+DrawBitmap
+DrawText
+DrawText
+
+Caches:
+Current memory usage / total memory usage (bytes):
+  TextureCache           669300 / 50331648
+  LayerCache                  0 / 33554432 (numLayers = 0)
+  Layers total          0 (numLayers = 0)
+  RenderBufferCache           0 /  4194304
+  GradientCache               0 /  1048576
+  PathCache                   0 / 25165824
+  TessellationCache           0 /  1048576
+  TextDropShadowCache         0 /  5242880
+  PatchCache                960 /   131072
+  FontRenderer 0 A8      524288 /   524288
+  FontRenderer 0 RGBA         0 /        0
+  FontRenderer 0 total   524288 /   524288
+Other:
+  FboCache                    0 /        0
+Total memory usage:
+  1194548 bytes, 1.14 MB
+
+Profile data in ms:
+
+        com.android.chrome/org.chromium.chrome.browser.ChromeTabbedActivity/android.view.ViewRootImpl@27de7df5 (visibility=0)
+View hierarchy:
+
+  com.android.chrome/org.chromium.chrome.browser.ChromeTabbedActivity/android.view.ViewRootImpl@27de7df5
+  55 views, 51,03 kB of display lists
+
+
+Total ViewRootImpl: 1
+Total Views:        55
+Total DisplayList:  51,03 kB
+EOS
+
 SAMPLE_GFXINFO_6 = <<-EOS
 Applications Graphics Acceleration Info:
 Uptime: 9658130 Realtime: 9658130
@@ -178,6 +269,12 @@ class GfxinfoTest < Test::Unit::TestCase
     expected = %w(654464 bytes, 0.62 MB 41 views, 1.36 kB of display lists, 191 frames rendered)
 
     assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO))
+  end
+
+  def test_dump_gfxinfo_usage_for_API21
+    expected = %w(1194548 bytes, 1.14 MB 55 views, 51,03 kB of display lists)
+
+    assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO_5))
   end
 
   def test_dump_gfxinfo_usage_for_API23

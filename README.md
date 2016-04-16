@@ -154,7 +154,7 @@ require "droid/monitor/gxfinfo"
 # export data into filename as google api format
 data_file_gfx = "sample_gfx.txt"
 data_file_mem = "sample_mem.txt"
-data_file_frame = "sample_frame.txt"
+data_file_frame = "sample_frame.txt" # Can't get frame rendered if api level of target devices are 21 or 22.(Android 5.x)
 @gfx.save_gfxinfo_usage_as_google_api(data_file_gfx, data_file_mem, data_file_frame)
 
 # export data into filename which is used the above command.
@@ -182,6 +182,8 @@ graph_opts = { title: "Example", header1: "this graph is just sample"}
 ![](https://raw.githubusercontent.com/KazuCocoa/droid-monitor/master/doc/images/Screen%20Shot%202015-09-12%20at%2009.41.40.png)
 
 - frame
+
+**Can't get frame rendered if api level of target devices are 21 or 22.(Android 5.x)**
 
 ![](https://raw.githubusercontent.com/KazuCocoa/droid-monitor/master/doc/images/Screen%20Shot%202015-09-12%20at%2009.41.16.png)
 

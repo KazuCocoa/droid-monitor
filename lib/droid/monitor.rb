@@ -13,6 +13,7 @@ module Droid
         @package = opts[:package]
         @device_serial = opts[:device_serial] || ""
         @api_level = device_sdk_version
+        @debug = opts[:debug]
       end
 
       # @return [Integer] message from adb command
@@ -34,12 +35,14 @@ module Droid
       def dump_tcp_rec
         pid = get_pid
         return 0 if pid == -1
+        puts "pid is #{pid}" if @debug
         run_adb("#{adb_shell} cat proc/uid_stat/#{pid}/tcp_rcv").to_i
       end
 
       def dump_tcp_snd
         pid = get_pid
         return 0 if pid == -1
+        puts "pid is #{pid}" if @debug
         run_adb("#{adb_shell} cat proc/uid_stat/#{pid}/tcp_snd").to_i
       end
 
