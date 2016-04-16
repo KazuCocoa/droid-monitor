@@ -74,13 +74,22 @@ module Droid
             total_memory: 0,
             time: dump_gfxinfo_array.last,
           }
-        else
+        elsif @api_level >= 23
           {
             view: dump_gfxinfo_array[4].to_i,
             display_lists_kb: dump_gfxinfo_array[6].to_f.round(2),
-            frames_rendered: dump_gfxinfo_array[11].to_i || 0,
+            frames_rendered: dump_gfxinfo_array[14].to_i || 0,
+            janky_frame: dump_gfxinfo_array[17].to_i || 0,
             total_memory: (dump_gfxinfo_array[0].to_f / 1024).round(2),
             time: dump_gfxinfo_array.last,
+          }
+        else
+          {
+              view: dump_gfxinfo_array[4].to_i,
+              display_lists_kb: dump_gfxinfo_array[6].to_f.round(2),
+              frames_rendered: dump_gfxinfo_array[11].to_i || 0,
+              total_memory: (dump_gfxinfo_array[0].to_f / 1024).round(2),
+              time: dump_gfxinfo_array.last,
           }
         end
       end
@@ -121,21 +130,29 @@ module Droid
       def export_as_google_api_format_frame(from_gfxinfo_usage)
         google_api_data_format = empty_google_api_format_frame
 
-        from_gfxinfo_usage.each do |hash|
-          a_google_api_data_format = {
-            c: [
-              { v: hash[:time] },
-              { v: hash[:frames_rendered] },
-            ]
-          }
-          google_api_data_format[:rows].push(a_google_api_data_format)
+        if @api_level >= 23
+          from_gfxinfo_usage.each do |hash|
+            a_google_api_data_format = {
+                c: [
+                    { v: hash[:time] },
+                    { v: hash[:frames_rendered] },
+                    { v: hash[:janky_frame] },
+                ]
+            }
+            google_api_data_format[:rows].push(a_google_api_data_format)
+          end
+        else
+          from_gfxinfo_usage.each do |hash|
+            a_google_api_data_format = {
+                c: [
+                    { v: hash[:time] },
+                    { v: hash[:frames_rendered] },
+                ]
+            }
+            google_api_data_format[:rows].push(a_google_api_data_format)
+          end
         end
-
         JSON.generate google_api_data_format
-      end
-
-      def export_as_google_api_format_frame_and_janky(from_gfxinfo_usage)
-        # TODO: save total frame rendered and janky frames from `Total frames rendered: 3 Janky frames: 2 (66.67%)`
       end
 
       def create_graph(data_file_path, graph_opts = {}, output_file_path)
@@ -169,17 +186,27 @@ module Droid
       end
 
       def empty_google_api_format_frame
-        {
-          cols: [
-            { label: 'time', type: 'string' },
-            { label: 'frames_rendered', type: 'number' },
-          ],
-          rows: [
-          ],
-        }
+        if @api_level >= 23
+          {
+            cols: [
+              { label: 'time', type: 'string' },
+              { label: 'frames_rendered', type: 'number' },
+              { label: 'janky_frame', type: 'number' },
+            ],
+            rows: [
+            ],
+          }
+        else
+          {
+              cols: [
+                  { label: 'time', type: 'string' },
+                  { label: 'frames_rendered', type: 'number' },
+              ],
+              rows: [
+              ],
+          }
+        end
       end
-
-
     end # class Gfxinfo
   end # module Monitor
 end # module Droid

@@ -335,6 +335,18 @@ class GfxinfoTest < Test::Unit::TestCase
     assert_equal(@gfx.export_as_google_api_format_frame(@gfx.gfxinfo_usage), expected_json)
   end
 
+  def test_convert_to_google_data_api_format_frame_one_api_23
+    dummy_array = %w(1926852 bytes, 1.84 MB 21 views, 31.36 kB of display lists Total frames rendered: 3 Janky frames: 2 (66.67%))
+    @gfx.api_level = 23
+
+    @gfx.store_gfxinfo_usage(dummy_array)
+    expected_json = "{\"cols\":[{\"label\":\"time\",\"type\":\"string\"}," +
+        "{\"label\":\"frames_rendered\",\"type\":\"number\"},{\"label\":\"janky_frame\",\"type\":\"number\"}]," +
+        "\"rows\":[{\"c\":[{\"v\":\"#{@gfx.gfxinfo_usage[0][:time]}\"},{\"v\":3},{\"v\":2}]}]}"
+    assert_equal(@gfx.export_as_google_api_format_frame(@gfx.gfxinfo_usage), expected_json)
+  end
+
+
   def test_convert_to_google_data_api_format_gfx_many
     dummy_array = %w(5781894 bytes, 5.51 MB 465 views, 38.00 kB of display lists,  354 frames rendered 13:43:32.556)
 
@@ -368,4 +380,19 @@ class GfxinfoTest < Test::Unit::TestCase
       "{\"v\":354}]},{\"c\":[{\"v\":\"#{@gfx.gfxinfo_usage[1][:time]}\"},{\"v\":354}]}]}"
     assert_equal(@gfx.export_as_google_api_format_frame(@gfx.gfxinfo_usage), expected_json)
   end
+
+  def test_convert_to_google_data_api_format_frame_many_api_23
+    dummy_array = %w(1926852 bytes, 1.84 MB 21 views, 31.36 kB of display lists Total frames rendered: 3 Janky frames: 2 (66.67%))
+    @gfx.api_level = 23
+
+    @gfx.store_gfxinfo_usage(dummy_array)
+    @gfx.store_gfxinfo_usage(dummy_array)
+    expected_json = "{\"cols\":[{\"label\":\"time\",\"type\":\"string\"}," +
+        "{\"label\":\"frames_rendered\",\"type\":\"number\"},{\"label\":\"janky_frame\",\"type\":\"number\"}]," +
+        "\"rows\":[{\"c\":[{\"v\":\"#{@gfx.gfxinfo_usage[1][:time]}\"}," +
+        "{\"v\":3},{\"v\":2}]},{\"c\":[{\"v\":\"#{@gfx.gfxinfo_usage[1][:time]}\"},{\"v\":3},{\"v\":2}]}]}"
+    assert_equal(@gfx.export_as_google_api_format_frame(@gfx.gfxinfo_usage), expected_json)
+  end
+
+
 end
