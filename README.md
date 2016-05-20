@@ -72,7 +72,7 @@ require "droid/monitor/memory"
 
 # initialize
 # You can specify target devices with providing device serial which is provided via adb devices.
-@memory = Droid::Monitor::Cpu.new( { package: "com.android.chrome", device_serial: "device_serials"} )
+@memory = Droid::Monitor::Memory.new( { package: "com.android.chrome", device_serial: "device_serials"} )
 
 # save data into @memory.memory_usage
 @memory.store_dumped_memory_details_usage
@@ -95,6 +95,8 @@ graph_opts = { title: "Example", header1: "this graph is just sample"}
 ![](https://github.com/KazuCocoa/droid-monitor/blob/master/doc/images/Screen%20Shot%202015-05-23%20at%2019.56.41.png)
 
 ### Net
+
+**Android 5.x can't get netstats**.
 
 ```ruby
 require "droid/monitor/net"
