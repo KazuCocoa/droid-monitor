@@ -82,6 +82,68 @@ Uptime: 76485937 Realtime: 238763696
     zip:/data/app/com.sample.package.apk:/assets/sample.ttf: 132K
 EOS
 
+SAMPLE_DATA_60 = <<-EOS
+Applications Memory Usage (kB):
+Uptime: 166891747 Realtime: 445776902
+
+** MEMINFO in pid 22861 [com.sample.package] **
+                   Pss  Private  Private  Swapped     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------
+  Native Heap    24501    24240        0    13968    60416    56957     3458
+  Dalvik Heap    16434    16400        0      484    34525    31331     3194
+ Dalvik Other    14130    14108        0     5072
+        Stack     1316     1316        0        0
+       Ashmem      207      112        0        0
+    Other dev        9        0        8        0
+     .so mmap    18500      444    12540     2504
+    .apk mmap     1964        0     1520        0
+    .ttf mmap      643        0      580        0
+    .dex mmap    18523        8    18156        4
+    .oat mmap     2657        0      500        0
+    .art mmap     1881     1560       16       92
+   Other mmap     1725       12     1020        4
+   EGL mtrack     7962     7962        0        0
+    GL mtrack    32867    32867        0        0
+      Unknown     2672     2672        0      108
+        TOTAL   145991   101701    34340    22236    94941    88288     6652
+
+ App Summary
+                       Pss(KB)
+                        ------
+           Java Heap:    17976
+         Native Heap:    24240
+                Code:    33748
+               Stack:     1316
+            Graphics:    40829
+       Private Other:    17932
+              System:     9950
+
+               TOTAL:   145991      TOTAL SWAP (KB):    22236
+
+ Objects
+               Views:      553         ViewRootImpl:        1
+         AppContexts:        2           Activities:        1
+              Assets:        5        AssetManagers:        2
+       Local Binders:       37        Proxy Binders:       29
+       Parcel memory:       11         Parcel count:       46
+    Death Recipients:        2      OpenSSL Sockets:       10
+
+ SQL
+         MEMORY_USED:      468
+  PAGECACHE_OVERFLOW:      113          MALLOC_SIZE:       62
+
+ DATABASES
+      pgsz     dbsz   Lookaside(b)          cache  Dbname
+         4       20             25        36/17/3  /data/data/com.sample.package/databases/sample1.db
+         4       28             62        17/26/8  /data/data/com.sample.package/databases/sample2.db
+         4      104             19         6/21/3  /data/data/com.sample.package/databases/sample3.db
+         4      104             22         2/18/3  /data/data/com.sample.package/databases/sample4.db
+
+ Asset Allocations
+    zip:/data/app/com.sample.package/base.apk:/assets/sample.ttf: 76K
+EOS
+
 class MemoryTest < Test::Unit::TestCase
 
   def setup
@@ -169,6 +231,22 @@ class MemoryTest < Test::Unit::TestCase
       heap_free: 2045,
     }
     result = @memory.transfer_total_memory_details_to_hash(@memory.dump_memory_details_usage(SAMPLE_DATA_44))
+    assert_equal(result, expected)
+  end
+
+  def test_memory_details_api_level23
+    @memory.api_level = 23
+
+    expected = {
+        pss_total: 145991,
+        private_dirty: 101701,
+        private_clean: 34340,
+        swapped_dirty: 22236,
+        heap_size: 94941,
+        heap_alloc: 88288,
+        heap_free: 6652,
+    }
+    result = @memory.transfer_total_memory_details_to_hash(@memory.dump_memory_details_usage(SAMPLE_DATA_60))
     assert_equal(result, expected)
   end
 
