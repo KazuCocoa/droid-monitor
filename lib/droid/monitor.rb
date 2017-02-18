@@ -23,8 +23,19 @@ module Droid
       end
 
       # @return [String] message from adb command
+      def dump_package_info
+        run_adb("#{adb_shell} dumpsys package #{@package}")
+      end
+
+      # @return [String] message from adb command
       def dump_cpuinfo
         run_adb("#{adb_shell} dumpsys cpuinfo")
+      end
+
+      # @return [String] message from adb command
+      # "17742  1  15% S    55 2279532K 128100K  fg u0_a124  your.cpackage\r\n"
+      def dump_cpuinfo_with_top
+        run_adb("#{adb_shell} top -d 0.5 -n 1 | grep #{@package}")
       end
 
       # @return [String] message from adb command

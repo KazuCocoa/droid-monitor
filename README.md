@@ -38,6 +38,7 @@ Followings are only storing data.
 They don't include cron like clockwork.
 
 ### CPU
+#### with cpuinfo
 
 ```ruby
 require "droid/monitor/cpu"
@@ -51,6 +52,30 @@ require "droid/monitor/cpu"
 # export data into filename as google api format
 filename = "sample_data.txt"
 @cpu.save_cpu_usage_as_google_api(filename)
+
+# export data into filename which is used the above command.
+output_file_path = "sample.html"
+graph_opts = { title: "Example", header1: "this graph is just sample"}
+@cpu.create_graph(filename, graph_opts, output_file_path)
+
+#clear @cpu.cpu_usage
+@cpu.clear_cpu_usage
+```
+
+#### with top command
+
+```ruby
+require "droid/monitor/cpu"
+
+# initialize
+@cpu = Droid::Monitor::Cpu.new( { package: "com.android.chrome" } )
+
+# save data into @cpu.cpu_usage
+@cpu.store_dumped_cpu_usage_with_top
+
+# export data into filename as google api format
+filename = "sample_data.txt"
+@cpu.save_cpu_usage_as_google_api_with_top(filename)
 
 # export data into filename which is used the above command.
 output_file_path = "sample.html"

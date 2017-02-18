@@ -34,6 +34,10 @@ CPU usage from 7077ms to 1571ms ago:
 96% TOTAL: 49% user + 20% kernel + 26% iowait + 0.5% softirq
 EOS
 
+TOP_CPU = <<-EOS
+17742  0   4.7% S    82 2929372K 212464K  fg u0_a124  com.android.chrome
+EOS
+
 class CpuTest < Test::Unit::TestCase
 
   def setup
@@ -63,6 +67,16 @@ class CpuTest < Test::Unit::TestCase
     assert_equal(expected, @cpu.dump_cpu_usage(SAMPLE_CPU_DATA_44))
   end
 
+  def test_dump_cpu_usage_with_top_empty
+    expected = []
+    assert_equal(expected, @cpu.dump_cpu_usage(''))
+  end
+
+  def test_dump_cpu_usage_with_top
+    expected = %w(17742 0 4.7% S 82 2929372K 212464K fg u0_a124 com.android.chrome)
+    assert_equal(expected, @cpu.dump_cpu_usage(TOP_CPU))
+  end
+
   def test_transfer_from_hash_empty_to_json
     dummy_array = %w(13:43:32.556)
 
@@ -79,6 +93,22 @@ class CpuTest < Test::Unit::TestCase
     @cpu.store_cpu_usage(dummy_array)
     expected_json = "[{\"total_cpu\":\"4.7%\",\"process\":\"2273/com.sample.package:sample:\"," +
       "\"user\":\"3.3%\",\"kernel\":\"1.3%\",\"time\":\"#{@cpu.cpu_usage[0][:time]}\"}]"
+    assert_equal(expected_json, JSON.generate(@cpu.cpu_usage))
+  end
+
+  def test_transfer_from_hash_empty_to_json_with_top
+    dummy_array = %w(13:43:32.556)
+
+    @cpu.store_cpu_usage_with_top(dummy_array)
+    expected_json = "[{\"total_cpu\":\"0%\",\"process\":\"no package process\",\"time\":\"#{@cpu.cpu_usage[0][:time]}\"}]"
+    assert_equal(expected_json, JSON.generate(@cpu.cpu_usage))
+  end
+
+  def test_transfer_from_hash_correct_to_json_with_top
+    dummy_array = %w(17742 0 4.7% S 82 2929372K 212464K fg u0_a124 com.sample.package 13:43:32.55)
+
+    @cpu.store_cpu_usage_with_top(dummy_array)
+    expected_json = "[{\"total_cpu\":\"4.7%\",\"process\":\"17742\",\"time\":\"#{@cpu.cpu_usage[0][:time]}\"}]"
     assert_equal(expected_json, JSON.generate(@cpu.cpu_usage))
   end
 
@@ -104,6 +134,28 @@ class CpuTest < Test::Unit::TestCase
       "{\"v\":4.7},{\"v\":3.3},{\"v\":1.3}]},{\"c\":[{\"v\":\"#{@cpu.cpu_usage[1][:time]}\"}," +
       "{\"v\":4.7},{\"v\":3.3},{\"v\":1.3}]}]}"
     assert_equal(@cpu.export_as_google_api_format(@cpu.cpu_usage), expected_json)
+  end
+
+  def test_convert_to_google_data_api_format_with_top_one
+    dummy_array = %w(17742 0 4.7% S 82 2929372K 212464K fg u0_a124 com.sample.package 13:43:32.55)
+
+    @cpu.store_cpu_usage_with_top(dummy_array)
+    expected_json = "{\"cols\":[{\"label\":\"time\",\"type\":\"string\"}," +
+        "{\"label\":\"total_cpu\",\"type\":\"number\"}],\"rows\":[{\"c\":[{\"v\":\"#{@cpu.cpu_usage[0][:time]}\"}," +
+        "{\"v\":4.7}]}]}"
+    assert_equal(@cpu.export_as_google_api_format_with_top(@cpu.cpu_usage), expected_json)
+  end
+
+  def test_convert_to_google_data_api_format_with_top_many
+    dummy_array = %w(17742 0 4.7% S 82 2929372K 212464K fg u0_a124 com.sample.package 13:43:32.55)
+
+    @cpu.store_cpu_usage_with_top(dummy_array)
+    @cpu.store_cpu_usage_with_top(dummy_array)
+    expected_json = "{\"cols\":[{\"label\":\"time\",\"type\":\"string\"}," +
+        "{\"label\":\"total_cpu\",\"type\":\"number\"}],\"rows\":[{\"c\":[{\"v\":\"#{@cpu.cpu_usage[0][:time]}\"}," +
+        "{\"v\":4.7}]},{\"c\":[{\"v\":\"#{@cpu.cpu_usage[1][:time]}\"}," +
+        "{\"v\":4.7}]}]}"
+    assert_equal(@cpu.export_as_google_api_format_with_top(@cpu.cpu_usage), expected_json)
   end
 
 end
