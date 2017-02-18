@@ -52,11 +52,15 @@ module Droid
       end
 
       def store_dumped_cpu_usage_with_top
-        self.store_cpu_usage(self.dump_cpu_usage_with_top(self.dump_cpuinfo_with_top))
+        self.store_cpu_usage_with_top(self.dump_cpu_usage_with_top(self.dump_cpuinfo_with_top))
       end
 
       def save_cpu_usage_as_google_api(file_path)
         self.save(export_as_google_api_format(@cpu_usage), file_path)
+      end
+
+      def save_cpu_usage_as_google_api_with_top(file_path)
+        self.save(export_as_google_api_format_with_top(@cpu_usage), file_path)
       end
 
       def store_cpu_usage(dumped_cpu)
