@@ -32,9 +32,27 @@ module Droid
         []
       end
 
+      def dump_cpu_usage_with_top(dump_data)
+        return [] if dump_data.nil?
+
+        dump = dump_data.split(/\s/).reject(&:empty?)
+        fail 'no package' if /^Load:$/ =~ dump[0]
+
+        puts dump
+
+        dump
+      rescue StandardError => e
+        puts e
+        []
+      end
+
       # called directory
       def store_dumped_cpu_usage
         self.store_cpu_usage(self.dump_cpu_usage(self.dump_cpuinfo))
+      end
+
+      def store_dumped_cpu_usage_with_top
+        self.store_cpu_usage(self.dump_cpu_usage_with_top(self.dump_cpuinfo_with_top))
       end
 
       def save_cpu_usage_as_google_api(file_path)
@@ -43,6 +61,10 @@ module Droid
 
       def store_cpu_usage(dumped_cpu)
         @cpu_usage.push self.merge_current_time(transfer_total_cpu_to_hash(dumped_cpu))
+      end
+
+      def store_cpu_usage_with_top(dumped_cpu)
+        @cpu_usage.push self.merge_current_time(transfer_total_cpu_with_top_to_hash(dumped_cpu))
       end
 
       def transfer_total_cpu_to_hash(dump_cpu_array)
@@ -65,6 +87,22 @@ module Droid
         end
       end
 
+      def transfer_total_cpu_with_top_to_hash(dump_cpu_array)
+        if dump_cpu_array.length <= 1
+          {
+              total_cpu: '0%',
+              process: 'no package process',
+              time: dump_cpu_array.last,
+          }
+        else
+          {
+              total_cpu: dump_cpu_array[2],
+              process: dump_cpu_array[0],
+              time: dump_cpu_array.last,
+          }
+        end
+      end
+
       def export_as_google_api_format(from_cpu_usage)
         google_api_data_format = empty_google_api_format
 
@@ -77,6 +115,23 @@ module Droid
               { v: hash[:user].delete('%').to_f },
               { v: hash[:kernel].delete('%').to_f },
             ]
+          }
+          google_api_data_format[:rows].push(a_google_api_data_format)
+        end
+
+        JSON.generate google_api_data_format
+      end
+
+      def export_as_google_api_format_with_top(from_cpu_usage)
+        google_api_data_format = empty_google_api_format_with_top
+
+        from_cpu_usage.each do |hash|
+
+          a_google_api_data_format = {
+              c: [
+                  { v: hash[:time] },
+                  { v: hash[:total_cpu].delete('%').to_f },
+              ]
           }
           google_api_data_format[:rows].push(a_google_api_data_format)
         end
@@ -107,6 +162,16 @@ module Droid
         }
       end
 
+      def empty_google_api_format_with_top
+        {
+            cols: [
+                { label: 'time', type: 'string' },
+                { label: 'total_cpu', type: 'number' },
+            ],
+            rows: [
+            ],
+        }
+      end
     end # class Cpu
   end # module Monitor
 end # module Droid
