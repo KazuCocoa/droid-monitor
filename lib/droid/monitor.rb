@@ -81,7 +81,11 @@ module Droid
       def get_pid
         dump = run_adb("#{adb_shell} dumpsys package #{@package}")
         return -1 if dump.nil?
-        dump.scan(/userId=[0-9]+/).uniq.first.delete("userId=")
+
+        userid = dump.scan(/userId=[0-9]+/)
+        return -1 if userid.empty?
+
+        userid.uniq.first.delete("userId=")
       end
 
       def run_adb(cmd)
