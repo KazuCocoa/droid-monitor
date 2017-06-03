@@ -1,6 +1,6 @@
 require 'test/unit'
 
-require './lib/droid/monitor/common/timer'
+require './lib/droid/monitor/common/commons'
 
 module Droid
   module Monitor
