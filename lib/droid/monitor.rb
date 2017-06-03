@@ -1,4 +1,6 @@
 require_relative "monitor/version"
+require_relative "monitor/common/timer"
+require_relative "monitor/executor/executor"
 
 require "Open3"
 
@@ -8,8 +10,8 @@ module Droid
       attr_accessor :package, :device_serial, :api_level
 
       def initialize(opts = {})
-        fail "opts must be a hash" unless opts.is_a? Hash
-        fail "Package name is required." unless opts[:package]
+        raise "opts must be a hash" unless opts.is_a? Hash
+        raise "Package name is required." unless opts[:package]
         @package = opts[:package]
         @device_serial = opts[:device_serial] || ""
         @api_level = device_sdk_version
@@ -64,7 +66,7 @@ module Droid
       private
 
       def adb
-        fail "ANDROID_HOME is not set" unless ENV["ANDROID_HOME"]
+        raise "ANDROID_HOME is not set" unless ENV["ANDROID_HOME"]
         "#{ENV["ANDROID_HOME"]}/platform-tools/adb"
       end
 
