@@ -10,17 +10,17 @@ module Droid
         end
 
         # @param [Block] &block Yield the block after sleep @interval
-        # @return [Symbol] :finish
+        # @return [Symbol] :finished
         def execute
           sleep interval
           yield
 
-          :finish
+          :finished
         end
 
         # Loop `execute` until stopping its process
         # @param [Block] &block Yield the block after sleep @interval
-        # @return [Symbol] :finish
+        # @return [Symbol] :finished
         def execute_loop(&block)
           loop { execute(&block) }
         end
@@ -32,7 +32,7 @@ module Droid
         #
         # Loop `execute` until stopping its process on the other thread
         # @param [Block] &block Yield the block after sleep @interval
-        # @return [Symbol] :finish
+        # @return [Symbol] :finished
         def execute_loop_thread(&block)
           Thread.new { loop { execute(&block) } }
         end
