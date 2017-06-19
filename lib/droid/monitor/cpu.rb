@@ -38,8 +38,6 @@ module Droid
         dump = dump_data.split(/\s/).reject(&:empty?)
         fail 'no package' if /^Load:$/ =~ dump[0]
 
-        puts dump
-
         dump
       rescue StandardError => e
         puts e
