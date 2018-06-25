@@ -4,6 +4,8 @@ Monitoring Android cpu or memory usage and create their simple graph with Google
 
 [![Gem Version](https://badge.fury.io/rb/droid-monitor.svg)](http://badge.fury.io/rb/droid-monitor)
 
+Read also: https://developer.android.com/training/testing/performance
+
 ## Installation
 
 Add this line to your application's Gemfile:
