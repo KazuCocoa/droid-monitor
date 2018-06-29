@@ -1,10 +1,10 @@
+sudo: false
+cache: bundler
 language: ruby
 rvm:
-  - 2.1.4
-  - 2.2.0
-  - 2.3.0
+  - 2.3
   - 2.4
   - 2.5
 
 script:
-  - bundle exec ruby test/run_test.rb
+  - ruby test/run_test.rb

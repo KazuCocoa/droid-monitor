@@ -2,7 +2,7 @@ require_relative "monitor/version"
 require_relative "monitor/common/timer"
 require_relative "monitor/executor/executor"
 
-require "Open3"
+require "open3"
 
 module Droid
   module Monitor
