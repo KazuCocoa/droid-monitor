@@ -1,3 +1,5 @@
+sudo: false
+cache: bundler
 language: ruby
 rvm:
   - 2.1.4
@@ -5,6 +7,10 @@ rvm:
   - 2.3.0
   - 2.4
   - 2.5
+
+before_install:
+  - gem update --system
+  - gem update bundler
 
 script:
   - bundle exec ruby test/run_test.rb
