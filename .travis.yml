@@ -1,11 +1,20 @@
 sudo: false
-cache: bundler
+#cache: bundler
 language: ruby
 rvm:
   - 2.3
   - 2.4
   - 2.5
   - 2.6
+
+env:
+  - ANDROID_HOME='~' # dummy
+
+before_install:
+  - gem update --system
+  - gem update bundler
+  - mkdir ~/platform-tools
+  - touch ~/platform-tools/adb
 
 script:
   - ruby test/run_test.rb
