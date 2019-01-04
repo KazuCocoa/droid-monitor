@@ -267,19 +267,19 @@ class GfxinfoTest < Test::Unit::TestCase
   end
 
   def test_dump_gfxinfo_usage
-    expected = %w[654464 bytes 0.62 MB 41 views 1.36 kB of display lists 191 frames rendered]
+    expected = %w[654464 bytes, 0.62 MB 41 views, 1.36 kB of display lists, 191 frames rendered] # rubocop:disable Lint/PercentStringArray
 
     assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO))
   end
 
   def test_dump_gfxinfo_usage_for_API21 # rubocop:disable Naming/MethodName
-    expected = %w[1194548 bytes 1.14 MB 55 views 51,03 kB of display lists]
+    expected = %w[1194548 bytes, 1.14 MB 55 views, 51,03 kB of display lists] # rubocop:disable Lint/PercentStringArray
 
     assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO_5))
   end
 
   def test_dump_gfxinfo_usage_for_API23 # rubocop:disable Naming/MethodName
-    expected = %w(1926852 bytes 1.84 MB 21 views 31.36 kB of display lists Total frames rendered: 3 Janky frames: 2 (66.67%))
+    expected = %w(1926852 bytes, 1.84 MB 21 views, 31.36 kB of display lists Total frames rendered: 3 Janky frames: 2 (66.67%)) # rubocop:disable Lint/PercentStringArray
     @gfx.api_level = 23
     assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO_6))
   end
