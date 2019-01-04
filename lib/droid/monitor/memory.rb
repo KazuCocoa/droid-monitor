@@ -113,7 +113,6 @@ module Droid
             }
             google_api_data_format[:rows].push(a_google_api_data_format)
           end
-          JSON.generate google_api_data_format
         else
           google_api_data_format = empty_google_api_format_over43
 
@@ -131,15 +130,14 @@ module Droid
             }
             google_api_data_format[:rows].push(a_google_api_data_format)
           end
-
-          JSON.generate google_api_data_format
         end
+        JSON.generate google_api_data_format
       end
 
       # @params [String] data_file_path A path to data.
       # @params [Hash] graph_opts A hash regarding graph settings.
       # @params [String] output_file_path A path you would like to export data.
-      def create_graph(data_file_path, graph_opts = {}, output_file_path)
+      def create_graph(data_file_path, graph_opts = {}, output_file_path) # rubocop:disable Style/OptionalArguments
         save(Droid::Monitor::GoogleApiTemplate.create_graph(data_file_path, graph_opts),
              output_file_path)
       end
@@ -158,8 +156,7 @@ module Droid
             { label: 'heap_alloc', type: 'number' },
             { label: 'heap_free', type: 'number' }
           ],
-          rows: [
-          ]
+          rows: []
         }
       end
 
@@ -174,8 +171,7 @@ module Droid
             { label: 'heap_alloc', type: 'number' },
             { label: 'heap_free', type: 'number' }
           ],
-          rows: [
-          ]
+          rows: []
         }
       end
 

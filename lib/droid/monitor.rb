@@ -49,7 +49,7 @@ module Droid
       end
 
       def dump_tcp_rec
-        pid = get_pid
+        pid = user_pid
         return 0 if pid == -1
 
         puts "pid is #{pid}" if @debug
@@ -57,7 +57,7 @@ module Droid
       end
 
       def dump_tcp_snd
-        pid = get_pid
+        pid = user_pid
         return 0 if pid == -1
 
         puts "pid is #{pid}" if @debug
@@ -87,7 +87,7 @@ module Droid
       end
 
       # @return [String] line of packages regarding pid and so on
-      def get_pid
+      def user_pid
         dump = run_adb("#{adb_shell} dumpsys package #{@package}")
         return -1 if dump.nil?
 
@@ -98,7 +98,7 @@ module Droid
       end
 
       def run_adb(cmd)
-        out_s, out_e, status = Open3.capture3(cmd)
+        out_s, out_e, _status = Open3.capture3(cmd)
         puts "error: device not found which serial is #{@device_serial}" if out_e.include?('error: device not found')
         out_s.chomp unless out_s.nil? || out_s.empty?
       end

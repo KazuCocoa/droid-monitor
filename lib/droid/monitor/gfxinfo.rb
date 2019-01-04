@@ -157,7 +157,7 @@ module Droid
         JSON.generate google_api_data_format
       end
 
-      def create_graph(data_file_path, graph_opts = {}, output_file_path)
+      def create_graph(data_file_path, graph_opts = {}, output_file_path) # rubocop:disable Style/OptionalArguments
         save(Droid::Monitor::GoogleApiTemplate.create_graph(data_file_path, graph_opts),
              output_file_path)
       end
@@ -171,8 +171,7 @@ module Droid
             { label: 'view', type: 'number' },
             { label: 'display_lists_kb', type: 'number' }
           ],
-          rows: [
-          ]
+          rows: []
         }
       end
 
@@ -182,8 +181,7 @@ module Droid
             { label: 'time', type: 'string' },
             { label: 'total_memory', type: 'number' }
           ],
-          rows: [
-          ]
+          rows: []
         }
       end
 
@@ -195,8 +193,7 @@ module Droid
               { label: 'frames_rendered', type: 'number' },
               { label: 'janky_frame', type: 'number' }
             ],
-            rows: [
-            ]
+            rows: []
           }
         else
           {
@@ -204,8 +201,7 @@ module Droid
               { label: 'time', type: 'string' },
               { label: 'frames_rendered', type: 'number' }
             ],
-            rows: [
-            ]
+            rows: []
           }
         end
       end

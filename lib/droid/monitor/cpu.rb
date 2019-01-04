@@ -145,7 +145,7 @@ module Droid
       # @params [String] data_file_path A path to data.
       # @params [Hash] graph_opts A hash regarding graph settings.
       # @params [String] output_file_path A path you would like to export data.
-      def create_graph(data_file_path, graph_opts = {}, output_file_path)
+      def create_graph(data_file_path, graph_opts = {}, output_file_path) # rubocop:disable Style/OptionalArguments
         save(Droid::Monitor::GoogleApiTemplate.create_graph(data_file_path, graph_opts),
              output_file_path)
       end
@@ -160,8 +160,7 @@ module Droid
             { label: 'user', type: 'number' },
             { label: 'kernel', type: 'number' }
           ],
-          rows: [
-          ]
+          rows: []
         }
       end
 
@@ -171,8 +170,7 @@ module Droid
             { label: 'time', type: 'string' },
             { label: 'total_cpu', type: 'number' }
           ],
-          rows: [
-          ]
+          rows: []
         }
       end
     end # class Cpu

@@ -272,13 +272,13 @@ class GfxinfoTest < Test::Unit::TestCase
     assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO))
   end
 
-  def test_dump_gfxinfo_usage_for_API21
+  def test_dump_gfxinfo_usage_for_API21 # rubocop:disable Naming/MethodName
     expected = %w[1194548 bytes 1.14 MB 55 views 51,03 kB of display lists]
 
     assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO_5))
   end
 
-  def test_dump_gfxinfo_usage_for_API23
+  def test_dump_gfxinfo_usage_for_API23 # rubocop:disable Naming/MethodName
     expected = %w(1926852 bytes 1.84 MB 21 views 31.36 kB of display lists Total frames rendered: 3 Janky frames: 2 (66.67%))
     @gfx.api_level = 23
     assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO_6))
