@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Droid
   module Monitor
     module Timer

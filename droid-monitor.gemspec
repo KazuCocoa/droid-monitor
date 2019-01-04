@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'droid/monitor/version'
@@ -22,5 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'haml', '~> 5.0' # for using faml to tilt
   spec.add_dependency 'tilt', '~> 2.0'
   spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rubocop', '0.61.0'
   spec.add_development_dependency 'test-unit'
 end

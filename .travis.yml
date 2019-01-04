@@ -17,4 +17,5 @@ before_install:
   - touch ~/platform-tools/adb
 
 script:
+  - bundle exec rubocop
   - ruby test/run_test.rb
