@@ -1,8 +1,10 @@
-require_relative "monitor/version"
-require_relative "monitor/common/timer"
-require_relative "monitor/executor/executor"
+# frozen_string_literal: true
 
-require "open3"
+require_relative 'monitor/version'
+require_relative 'monitor/common/timer'
+require_relative 'monitor/executor/executor'
+
+require 'open3'
 
 module Droid
   module Monitor
@@ -10,10 +12,11 @@ module Droid
       attr_accessor :package, :device_serial, :api_level
 
       def initialize(opts = {})
-        raise "opts must be a hash" unless opts.is_a? Hash
-        raise "Package name is required." unless opts[:package]
+        raise 'opts must be a hash' unless opts.is_a? Hash
+        raise 'Package name is required.' unless opts[:package]
+
         @package = opts[:package]
-        @device_serial = opts[:device_serial] || ""
+        @device_serial = opts[:device_serial] || ''
         @api_level = device_sdk_version
         @debug = opts[:debug]
       end
@@ -48,6 +51,7 @@ module Droid
       def dump_tcp_rec
         pid = get_pid
         return 0 if pid == -1
+
         puts "pid is #{pid}" if @debug
         run_adb("#{adb_shell} cat proc/uid_stat/#{pid}/tcp_rcv").to_i
       end
@@ -55,6 +59,7 @@ module Droid
       def dump_tcp_snd
         pid = get_pid
         return 0 if pid == -1
+
         puts "pid is #{pid}" if @debug
         run_adb("#{adb_shell} cat proc/uid_stat/#{pid}/tcp_snd").to_i
       end
@@ -66,12 +71,14 @@ module Droid
       private
 
       def adb
-        raise "ANDROID_HOME is not set" unless ENV["ANDROID_HOME"]
-        "#{ENV["ANDROID_HOME"]}/platform-tools/adb"
+        raise 'ANDROID_HOME is not set' unless ENV['ANDROID_HOME']
+
+        "#{ENV['ANDROID_HOME']}/platform-tools/adb"
       end
 
       def device_serial_option
-        return "" unless @device_serial && @device_serial != ""
+        return '' unless @device_serial && @device_serial != ''
+
         "-s \"#{@device_serial}\""
       end
 
@@ -87,12 +94,12 @@ module Droid
         userid = dump.scan(/userId=[0-9]+/)
         return -1 if userid.empty?
 
-        userid.uniq.first.delete("userId=")
+        userid.uniq.first.delete('userId=')
       end
 
       def run_adb(cmd)
         out_s, out_e, status = Open3.capture3(cmd)
-        puts "error: device not found which serial is #{@device_serial}" if out_e.include?("error: device not found")
+        puts "error: device not found which serial is #{@device_serial}" if out_e.include?('error: device not found')
         out_s.chomp unless out_s.nil? || out_s.empty?
       end
     end # class Adb

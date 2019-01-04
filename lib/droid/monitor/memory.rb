@@ -1,8 +1,10 @@
-require_relative "../monitor"
-require_relative "common/commons"
-require_relative "report/google_api_template"
+# frozen_string_literal: true
 
-require "json"
+require_relative '../monitor'
+require_relative 'common/commons'
+require_relative 'report/google_api_template'
+
+require 'json'
 
 module Droid
   module Monitor
@@ -26,11 +28,12 @@ module Droid
       end
 
       def dump_memory_usage(dump_data)
-        fail "no process" if dump_data == "No process found for: #{@package}"
+        raise 'no process' if dump_data == "No process found for: #{@package}"
 
         scanned_dump = dump_data.scan(/^.*Uptime.*Realtime.*$/).map(&:strip).first
 
         return [] if scanned_dump.nil?
+
         scanned_dump.split(/\s/).reject(&:empty?)
       rescue StandardError => e
         puts e
@@ -38,10 +41,12 @@ module Droid
       end
 
       def dump_memory_details_usage(dump_data)
-        fail "no process" if dump_data == "No process found for: #{@package}"
+        raise 'no process' if dump_data == "No process found for: #{@package}"
+
         scanned_dump = dump_data.scan(/^.*TOTAL.*$/).map(&:strip).first
 
         return [] if scanned_dump.nil?
+
         scanned_dump.split(/\s/).reject(&:empty?)
       rescue StandardError => e
         puts e
@@ -50,32 +55,32 @@ module Droid
 
       # called directory
       def store_dumped_memory_usage
-        self.store_memory_usage(self.dump_memory_usage(self.dump_meminfo))
+        store_memory_usage(dump_memory_usage(dump_meminfo))
       end
 
       # called directory
       def store_dumped_memory_details_usage
-        self.store_memory_details_usage(self.dump_memory_details_usage(self.dump_meminfo))
+        store_memory_details_usage(dump_memory_details_usage(dump_meminfo))
       end
 
       def save_memory_as_google_api(file_path)
-        self.save(export_as_google_api_format(@memory_usage), file_path)
+        save(export_as_google_api_format(@memory_usage), file_path)
       end
 
       def save_memory_details_as_google_api(file_path)
-        self.save(export_as_google_api_format(@memory_detail_usage), file_path)
+        save(export_as_google_api_format(@memory_detail_usage), file_path)
       end
 
       # @param [Array] dumped_memory Array of dumped memory data
       # @return [Hash] Google API formatted data
       def store_memory_usage(dumped_memory)
-        @memory_usage.push self.merge_current_time(transfer_total_memory_to_hash(dumped_memory))
+        @memory_usage.push merge_current_time(transfer_total_memory_to_hash(dumped_memory))
       end
 
       # @param [Array] dumped_memory_details Array of dumped memory data
       # @return [Hash] Google API formatted data
       def store_memory_details_usage(dumped_memory_details)
-        @memory_detail_usage.push self.merge_current_time(transfer_total_memory_details_to_hash(dumped_memory_details))
+        @memory_detail_usage.push merge_current_time(transfer_total_memory_details_to_hash(dumped_memory_details))
       end
 
       def transfer_total_memory_to_hash(data)
@@ -103,8 +108,8 @@ module Droid
                 { v: hash[:swapped_dirty] },
                 { v: hash[:heap_size] },
                 { v: hash[:heap_alloc] },
-                { v: hash[:heap_free] },
-              ],
+                { v: hash[:heap_free] }
+              ]
             }
             google_api_data_format[:rows].push(a_google_api_data_format)
           end
@@ -121,8 +126,8 @@ module Droid
                 { v: hash[:private_dirty] },
                 { v: hash[:heap_size] },
                 { v: hash[:heap_alloc] },
-                { v: hash[:heap_free] },
-              ],
+                { v: hash[:heap_free] }
+              ]
             }
             google_api_data_format[:rows].push(a_google_api_data_format)
           end
@@ -135,8 +140,8 @@ module Droid
       # @params [Hash] graph_opts A hash regarding graph settings.
       # @params [String] output_file_path A path you would like to export data.
       def create_graph(data_file_path, graph_opts = {}, output_file_path)
-        self.save(Droid::Monitor::GoogleApiTemplate.create_graph(data_file_path, graph_opts),
-                  output_file_path)
+        save(Droid::Monitor::GoogleApiTemplate.create_graph(data_file_path, graph_opts),
+             output_file_path)
       end
 
       private
@@ -151,10 +156,10 @@ module Droid
             { label: 'swapped_dirty', type: 'number' },
             { label: 'heap_size', type: 'number' },
             { label: 'heap_alloc', type: 'number' },
-            { label: 'heap_free', type: 'number' },
+            { label: 'heap_free', type: 'number' }
           ],
           rows: [
-          ],
+          ]
         }
       end
 
@@ -167,17 +172,17 @@ module Droid
             { label: 'private_dirty', type: 'number' },
             { label: 'heap_size', type: 'number' },
             { label: 'heap_alloc', type: 'number' },
-            { label: 'heap_free', type: 'number' },
+            { label: 'heap_free', type: 'number' }
           ],
           rows: [
-          ],
+          ]
         }
       end
 
       def total_memory(data)
         {
           uptime: data[1].to_i ||= 0,
-          realtime: data[3].to_i ||= 0,
+          realtime: data[3].to_i ||= 0
         }
       end
 
@@ -189,7 +194,7 @@ module Droid
           swapped_dirty: data[4].to_i ||= 0,
           heap_size: data[5].to_i ||= 0,
           heap_alloc: data[6].to_i ||= 0,
-          heap_free: data[7].to_i ||= 0,
+          heap_free: data[7].to_i ||= 0
         }
       end
 
@@ -200,10 +205,9 @@ module Droid
           private_dirty: data[3].to_i ||= 0,
           heap_size: data[4].to_i ||= 0,
           heap_alloc: data[5].to_i ||= 0,
-          heap_free: data[6].to_i ||= 0,
+          heap_free: data[6].to_i ||= 0
         }
       end
-
     end # class Memory
   end # module Monitor
 end # module Droid

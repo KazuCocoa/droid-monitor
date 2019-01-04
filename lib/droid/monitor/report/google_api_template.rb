@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'tilt/haml'
 
 module Droid
   module Monitor
     module GoogleApiTemplate
       class << self
-        def create_graph( data_file_path, graph_opts = {})
-          template_path = File.expand_path("../templates/template_google_api_format.haml", __FILE__)
+        def create_graph(data_file_path, graph_opts = {})
+          template_path = File.expand_path('templates/template_google_api_format.haml', __dir__)
           default_graph_settings = { miniValue: 0, maxValue: 400, width: 800, height: 480 }
 
           template = Tilt::HamlTemplate.new(template_path)
