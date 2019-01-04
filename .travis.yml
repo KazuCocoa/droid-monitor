@@ -10,7 +10,11 @@ rvm:
 env:
   - ANDROID_HOME='~' # dummy
 
-script:
+before_install:
+  - gem update --system
+  - gem update bundler
   - mkdir ~/platform-tools
   - touch ~/platform-tools/adb
+
+script:
   - ruby test/run_test.rb
