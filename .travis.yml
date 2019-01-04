@@ -8,9 +8,9 @@ rvm:
   - 2.6
 
 env:
-  - ANDROID_HOME='/tmp' # dummy
+  - ANDROID_HOME='~' # dummy
 
 script:
-  - mkdir /tmp/platform-tools
-  - touch /tmp/platform-tools/adb
+  - mkdir ~/platform-tools
+  - touch ~/platform-tools/adb
   - ruby test/run_test.rb
