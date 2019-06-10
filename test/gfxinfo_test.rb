@@ -362,7 +362,6 @@ SAMPLE_GFXINFO_9 = <<~EOS
   Total DisplayList:  51.84 kB
 EOS
 
-
 class GfxinfoTest < Test::Unit::TestCase
   def setup
     @gfx = Droid::Monitor::Gfxinfo.new(package: 'com.android.chrome')
