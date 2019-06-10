@@ -247,6 +247,122 @@ SAMPLE_GFXINFO_6 = <<~EOS
   Total DisplayList:  31.36 kB
 EOS
 
+# 8 is same as OS 7
+SAMPLE_GFXINFO_7 = <<~EOS
+  Applications Graphics Acceleration Info:
+  Uptime: 6897124 Realtime: 6897124
+
+  ** Graphics info for pid 3015 [com.android.settings] **
+
+  Stats since: 6839009800620ns
+  Total frames rendered: 24
+  Janky frames: 14 (58.33%)
+  50th percentile: 19ms
+  90th percentile: 65ms
+  95th percentile: 150ms
+  99th percentile: 300ms
+  Number Missed Vsync: 3
+  Number High input latency: 0
+  Number Slow UI thread: 5
+  Number Slow bitmap uploads: 1
+  Number Slow issue draw commands: 12
+  HISTOGRAM: 5ms=1 6ms=0 7ms=1 8ms=0 9ms=2 10ms=1 11ms=1 12ms=3 13ms=0 14ms=0 15ms=1 16ms=0 17ms=0 18ms=0 19ms=3 20ms=0 21ms=0 22ms=0 23ms=0 24ms=1 25ms=1 26ms=2 27ms=1 28ms=1 29ms=0 30ms=0 31ms=0 32ms=1 34ms=0 36ms=0 38ms=0 40ms=0 42ms=0 44ms=0 46ms=0 48ms=0 53ms=1 57ms=0 61ms=0 65ms=1 69ms=0 73ms=0 77ms=0 81ms=0 85ms=0 89ms=0 93ms=0 97ms=0 101ms=0 105ms=0 109ms=0 113ms=0 117ms=0 121ms=0 125ms=0 129ms=0 133ms=0 150ms=1 200ms=0 250ms=0 300ms=1 350ms=0 400ms=0 450ms=0 500ms=0 550ms=0 600ms=0 650ms=0 700ms=0 750ms=0 800ms=0 850ms=0 900ms=0 950ms=0 1000ms=0 1050ms=0 1100ms=0 1150ms=0 1200ms=0 1250ms=0 1300ms=0 1350ms=0 1400ms=0 1450ms=0 1500ms=0 1550ms=0 1600ms=0 1650ms=0 1700ms=0 1750ms=0 1800ms=0 1850ms=0 1900ms=0 1950ms=0 2000ms=0 2050ms=0 2100ms=0 2150ms=0 2200ms=0 2250ms=0 2300ms=0 2350ms=0 2400ms=0 2450ms=0 2500ms=0 2550ms=0 2600ms=0 2650ms=0 2700ms=0 2750ms=0 2800ms=0 2850ms=0 2900ms=0 2950ms=0 3000ms=0 3050ms=0 3100ms=0 3150ms=0 3200ms=0 3250ms=0 3300ms=0 3350ms=0 3400ms=0 3450ms=0 3500ms=0 3550ms=0 3600ms=0 3650ms=0 3700ms=0 3750ms=0 3800ms=0 3850ms=0 3900ms=0 3950ms=0 4000ms=0 4050ms=0 4100ms=0 4150ms=0 4200ms=0 4250ms=0 4300ms=0 4350ms=0 4400ms=0 4450ms=0 4500ms=0 4550ms=0 4600ms=0 4650ms=0 4700ms=0 4750ms=0 4800ms=0 4850ms=0 4900ms=0 4950ms=0
+  Caches:
+  Current memory usage / total memory usage (bytes):
+    TextureCache           158760 / 49766400
+    Layers total          0 (numLayers = 0)
+    RenderBufferCache           0 /  4147200
+    GradientCache               0 /  1048576
+    PathCache                   0 /  8294400
+    TessellationCache         744 /  1048576
+    TextDropShadowCache         0 /  4147200
+    PatchCache                  0 /   131072
+    FontRenderer A8         44451 /  1183744
+      A8   texture 0        44451 /  1183744
+    FontRenderer RGBA           0 /        0
+    FontRenderer total      44451 /  1183744
+  Other:
+    FboCache                    0 /        0
+  Total memory usage:
+    1343248 bytes, 1.28 MB
+
+
+  Pipeline=FrameBuilder
+  Profile data in ms:
+
+    com.android.settings/com.android.settings.Settings/android.view.ViewRootImpl@859603c (visibility=0)
+  View hierarchy:
+
+    com.android.settings/com.android.settings.Settings/android.view.ViewRootImpl@859603c
+    66 views, 95.10 kB of display lists
+
+
+  Total ViewRootImpl: 1
+  Total Views:        66
+  Total DisplayList:  95.10 kB
+EOS
+
+SAMPLE_GFXINFO_9 = <<~EOS
+  Applications Graphics Acceleration Info:
+  Uptime: 101387804 Realtime: 236632184
+
+  ** Graphics info for pid 2720 [com.android.chrome] **
+
+  Stats since: 101382312046230ns
+  Total frames rendered: 43
+  Janky frames: 7 (16.28%)
+  50th percentile: 5ms
+  90th percentile: 69ms
+  95th percentile: 150ms
+  99th percentile: 200ms
+  Number Missed Vsync: 5
+  Number High input latency: 14
+  Number Slow UI thread: 5
+  Number Slow bitmap uploads: 0
+  Number Slow issue draw commands: 1
+  Number Frame deadline missed: 5
+  HISTOGRAM: 5ms=33 6ms=1 7ms=0 8ms=0 9ms=0 10ms=1 11ms=1 12ms=0 13ms=0 14ms=0 15ms=0 16ms=0 17ms=0 18ms=0 19ms=0 20ms=0 21ms=0 22ms=0 23ms=0 24ms=0 25ms=0 26ms=0 27ms=1 28ms=0 29ms=0 30ms=1 31ms=0 32ms=0 34ms=0 36ms=0 38ms=0 40ms=0 42ms=0 44ms=0 46ms=0 48ms=0 53ms=0 57ms=0 61ms=0 65ms=0 69ms=1 73ms=0 77ms=0 81ms=0 85ms=1 89ms=0 93ms=0 97ms=0 101ms=0 105ms=0 109ms=0 113ms=0 117ms=0 121ms=0 125ms=0 129ms=0 133ms=0 150ms=1 200ms=2 250ms=0 300ms=0 350ms=0 400ms=0 450ms=0 500ms=0 550ms=0 600ms=0 650ms=0 700ms=0 750ms=0 800ms=0 850ms=0 900ms=0 950ms=0 1000ms=0 1050ms=0 1100ms=0 1150ms=0 1200ms=0 1250ms=0 1300ms=0 1350ms=0 1400ms=0 1450ms=0 1500ms=0 1550ms=0 1600ms=0 1650ms=0 1700ms=0 1750ms=0 1800ms=0 1850ms=0 1900ms=0 1950ms=0 2000ms=0 2050ms=0 2100ms=0 2150ms=0 2200ms=0 2250ms=0 2300ms=0 2350ms=0 2400ms=0 2450ms=0 2500ms=0 2550ms=0 2600ms=0 2650ms=0 2700ms=0 2750ms=0 2800ms=0 2850ms=0 2900ms=0 2950ms=0 3000ms=0 3050ms=0 3100ms=0 3150ms=0 3200ms=0 3250ms=0 3300ms=0 3350ms=0 3400ms=0 3450ms=0 3500ms=0 3550ms=0 3600ms=0 3650ms=0 3700ms=0 3750ms=0 3800ms=0 3850ms=0 3900ms=0 3950ms=0 4000ms=0 4050ms=0 4100ms=0 4150ms=0 4200ms=0 4250ms=0 4300ms=0 4350ms=0 4400ms=0 4450ms=0 4500ms=0 4550ms=0 4600ms=0 4650ms=0 4700ms=0 4750ms=0 4800ms=0 4850ms=0 4900ms=0 4950ms=0
+  Font Cache (CPU):
+    Size: 17.95 kB
+    Glyph Count: 10
+  CPU Caches:
+  GPU Caches:
+    Other:
+      Buffer Object: 63.00 KB (2 entries)
+    Image:
+      Texture: 77.68 KB (6 entries)
+    Scratch:
+      Buffer Object: 64.00 KB (2 entries)
+      RenderTarget: 272.00 KB (1 entry)
+      Texture: 1.00 MB (1 entry)
+  Other Caches:
+                           Current / Maximum
+    VectorDrawableAtlas    0.00 kB /   0.00 KB (entries = 0)
+    Layers Total           0.00 KB (numLayers = 0)
+  Total GPU memory usage:
+    1536700 bytes, 1.47 MB (476.68 KB is purgeable)
+
+
+  Pipeline=Skia (OpenGL)
+
+  Layout Cache Info:
+    Usage: 14/5000 entries
+    Hit ratio: 147/162 (0.907407)
+  Profile data in ms:
+
+    com.android.chrome/com.google.android.apps.chrome.Main/android.view.ViewRootImpl@e39dbee (visibility=0)
+  View hierarchy:
+
+    com.android.chrome/com.google.android.apps.chrome.Main/android.view.ViewRootImpl@e39dbee
+    59 views, 51.84 kB of display lists
+
+
+  Total ViewRootImpl: 1
+  Total Views:        59
+  Total DisplayList:  51.84 kB
+EOS
+
+
 class GfxinfoTest < Test::Unit::TestCase
   def setup
     @gfx = Droid::Monitor::Gfxinfo.new(package: 'com.android.chrome')
@@ -282,6 +398,18 @@ class GfxinfoTest < Test::Unit::TestCase
     expected = %w(1926852 bytes, 1.84 MB 21 views, 31.36 kB of display lists Total frames rendered: 3 Janky frames: 2 (66.67%)) # rubocop:disable Lint/PercentStringArray
     @gfx.api_level = 23
     assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO_6))
+  end
+
+  def test_dump_gfxinfo_usage_for_OS24 # rubocop:disable Naming/MethodName
+    expected = %w(1343248 bytes, 1.28 MB 66 views, 95.10 kB of display lists Total frames rendered: 24 Janky frames: 14 (58.33%)) # rubocop:disable Lint/PercentStringArray
+    @gfx.api_level = 24
+    assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO_7))
+  end
+
+  def test_dump_gfxinfo_usage_for_OS28 # rubocop:disable Naming/MethodName
+    expected = %w(1536700 bytes, 1.47 MB 59 views, 51.84 kB of display lists Total frames rendered: 43 Janky frames: 7 (16.28%)) # rubocop:disable Lint/PercentStringArray
+    @gfx.api_level = 28
+    assert_equal(expected, @gfx.dump_gfxinfo_usage(SAMPLE_GFXINFO_9))
   end
 
   def test_push_current_time
